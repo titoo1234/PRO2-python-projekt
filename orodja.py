@@ -83,4 +83,4 @@ def etape(link,leto):
     return slovar
     
       
-print(naslov_etap(link))
+# print(naslov_etap(link))
