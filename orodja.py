@@ -1,6 +1,6 @@
 #koda za pridobitev imen za nek seštevek
 #treba še mal uredit imena 
-link = 'https://www.procyclingstats.com/race/tour-de-france/2020'
+link = 'https://www.procyclingstats.com/race/tour-de-france/2012'
 import requests
 import re
 def imena_vseh(link):
@@ -70,9 +70,11 @@ def naslov_etap(link):
     '''vrne tabelo kratic etap, da bom jih lahko uporabu za funkcijo etape'''
     tab = []
     req = requests.get(link).text
-    tekme = re.findall(r'max-width: 250px; width: 100%;  "><select style="" onChange="window.location.href=this.value;.+">.+</option><option', req)
+    ime_etap = re.findall(r'max-width: 250px; width: 100%;  "><select style="" onChange="window.location.href=this.value;.+">.+</option><option', req)
+    ime_etap = ime_etap[0].split(' |')
+    nov =[etapa.split('>')[-1] for etapa in ime_etap]
     
-    return tekme
+    return ime_etap
 def etape(link,leto):
     '''vrne slovar, ključi so katera etapa, vrednosti pa seznam kolesarjev'''
     slovar = dict()
