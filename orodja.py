@@ -1,9 +1,10 @@
 #koda za pridobitev imen za nek seštevek
 #treba še mal uredit imena 
-link = 'https://www.procyclingstats.com/race/tour-de-france/2012'
+import time
+link = 'https://www.procyclingstats.com/race/tour-de-france'
 import requests
 import re
-def imena_vseh(link):
+def imena_vseh(link,leto):
     '''vrne slovar imen kolesarjev glede na posamezne razvrstitve'''
     # dat2 = open('dat2.txt','w',encoding='utf-8')
     slovar = dict()
@@ -23,7 +24,7 @@ def imena_vseh(link):
             slovar['ZELENA'] = imena
         else:
             slovar['PIK'] = imena
-            
+    slovar['ETAPE'] = etape(link,leto)     
         
     return slovar
 def imena_etapa(link):
@@ -63,24 +64,27 @@ def pridobivanje_vseh_let(link, od_leta): #link = https://www.procyclingstats.co
     '''naredi slovar slovarjev slovar[leto] = slovar_imena_vseh'''
     slovar = dict()
     for leto in range(od_leta,2021):
-        slovar[leto] = imena_vseh(link + '/'+str(leto))
+        slovar[leto] = imena_vseh(link + '/'+str(leto),leto)
     return slovar
 
-def naslov_etap(link):
-    '''vrne tabelo kratic etap, da bom jih lahko uporabu za funkcijo etape'''
-    tab = []
+def linki_etap(link):
+    '''vrne tabelo linkov do posameznih etap v nekem letu'''
     req = requests.get(link).text
     ime_etap = re.findall(r'max-width: 250px; width: 100%;  "><select style="" onChange="window.location.href=this.value;.+">.+</option><option', req)
     ime_etap = ime_etap[0].split(' |')
-    nov =[etapa.split('>')[-1] for etapa in ime_etap]
+    nov =[etapa.split('option value="')[1] for etapa in ime_etap]
+    nov =['https://www.procyclingstats.com/'+ etapa.split('"')[0] for etapa in nov]
     
-    return ime_etap
+    return nov[:-1]
 def etape(link,leto):
+    
     '''vrne slovar, ključi so katera etapa, vrednosti pa seznam kolesarjev'''
     slovar = dict()
-    for etapa in range(1,22):
-        slovar[str(etapa)+'. etapa']= imena_etapa(link+ '/'+str(leto) +'/'+'stage-'+str(etapa) + '/'+'result'+'/'+'result')
+    link2='https://www.procyclingstats.com/race/tour-de-france'+ '/' + str(leto)
+    for etapa in linki_etap(link2):
+        slovar[etapa]= imena_etapa(etapa)
     return slovar
-    
-      
-# print(naslov_etap(link))
+c = time.time()
+
+a= pridobivanje_vseh_let(link,2005)
+print(abs(c- time.time()))
