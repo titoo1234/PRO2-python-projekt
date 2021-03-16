@@ -81,10 +81,19 @@ def etape(link,leto):
     '''vrne slovar, ključi so katera etapa, vrednosti pa seznam kolesarjev'''
     slovar = dict()
     link2='https://www.procyclingstats.com/race/tour-de-france'+ '/' + str(leto)
+    
     for etapa in linki_etap(link2):
-        slovar[etapa]= imena_etapa(etapa)
+        razrez = etapa.split('https://www.procyclingstats.com/race/tour-de-france/')[1].split('/')[1]
+        req = requests.get(etapa).text
+        if req.count('TTT') > 3:
+            slovar[razrez + ' TTT']= imena_etapa(etapa)
+        else:
+            slovar[razrez]= imena_etapa(etapa)
     return slovar
-c = time.time()
-
-a= pridobivanje_vseh_let(link,2005)
-print(abs(c- time.time()))
+# c = time.time()
+# 
+# a= pridobivanje_vseh_let(link,2005)
+# dat = open('dat.txt','w',encoding='utf-8')
+# print(a,file = dat)
+# dat.close()
+# print(abs(c- time.time()))
