@@ -94,9 +94,16 @@ def etape(link,leto):
                 slovar['prolog' +' '+ najdi]= imena_etapa(etapa)
             else:slovar[razrez[6:] +'. etapa: '+ najdi]= imena_etapa(etapa)
     return slovar
+def ime_za_link(ime):
+    '''iz Ime Priimek naredi ime-priimek'''
+    nov = ime.lower()
+    nov = nov.replace(' ','-')
+    return nov
+
+    
 # c = time.time()
 # 
-a= pridobivanje_vseh_let(link,2020)
+# a= pridobivanje_vseh_let(link,2020)
 # dat = open('dat.txt','w',encoding='utf-8')
 # print(a,file = dat)
 # dat.close()
