@@ -88,9 +88,11 @@ def etape(link,leto):
         #dodal bom še dolžino etape lahko dodama tud drugače
         najdi = re.findall(r'<li><div>Distance:.+', req)[0][31:].split('<')[0]
         if req.count('TTT') > 3:
-            slovar[razrez + ' TTT ' +najdi]= imena_etapa(etapa)
+            slovar[razrez[7:] + 'etapa' + ' (TTT) ' +najdi]= imena_etapa(etapa)
         else:
-            slovar[razrez +' '+ najdi]= imena_etapa(etapa)
+            if 'pro' in razrez:
+                slovar['prolog' +' '+ najdi]= imena_etapa(etapa)
+            else:slovar[razrez[6:] +'. etapa: '+ najdi]= imena_etapa(etapa)
     return slovar
 # c = time.time()
 # 
