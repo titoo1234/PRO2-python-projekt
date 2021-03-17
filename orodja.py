@@ -85,14 +85,16 @@ def etape(link,leto):
     for etapa in linki_etap(link2):
         razrez = etapa.split('https://www.procyclingstats.com/race/tour-de-france/')[1].split('/')[1]
         req = requests.get(etapa).text
+        #dodal bom še dolžino etape lahko dodama tud drugače
+        najdi = re.findall(r'<li><div>Distance:.+', req)[0][31:].split('<')[0]
         if req.count('TTT') > 3:
-            slovar[razrez + ' TTT']= imena_etapa(etapa)
+            slovar[razrez + ' TTT ' +najdi]= imena_etapa(etapa)
         else:
-            slovar[razrez]= imena_etapa(etapa)
+            slovar[razrez +' '+ najdi]= imena_etapa(etapa)
     return slovar
 # c = time.time()
 # 
-# a= pridobivanje_vseh_let(link,2005)
+a= pridobivanje_vseh_let(link,2020)
 # dat = open('dat.txt','w',encoding='utf-8')
 # print(a,file = dat)
 # dat.close()
