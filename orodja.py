@@ -29,19 +29,13 @@ def imena_vseh(link,leto):
     return slovar
 def imena_etapa(link):
     '''vrne seznam imen kolesarjev glede na posamezne razvrstitve'''
-    # dat2 = open('dat2.txt','w',encoding='utf-8')
-    
-    req = requests.get(link).text
-    
-    tabela = req.split('<table class="basic')
-    #tuki sam spremeni indeks in boš dobu imena za drugo
-    #točkovanje(2=GC,3=ZELENA,4=PIKČASTA) a
-                                                    
-    for i in [1]:#4 je bela majica lahk dodama...
-        tab = tabela[i]
-        osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
-        imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
-        imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+   
+    req = requests.get(link).text    
+    tab = req.split('<table class="basic')[1]                                                    
+    osebe = re.findall(r'data-nation=".+">.+class="showIfMobile', tab)
+    #osebe, ki niso začele etape, ne dam v tabelo
+    imena = [oseba.split('href="rider/')[1] for oseba in osebe if ('DNS' not in oseba and 'DNF' not in oseba and 'OTL' not in oseba)]
+    imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
         
             
         
@@ -88,10 +82,10 @@ def etape(link,leto):
         #dodal bom še dolžino etape lahko dodama tud drugače
         najdi = re.findall(r'<li><div>Distance:.+', req)[0][31:].split('<')[0]
         if req.count('TTT') > 3:
-            slovar[razrez[7:] + 'etapa' + ' (TTT) ' +najdi]= imena_etapa(etapa)
+            slovar[razrez[6:] + '. etapa' + ' (TTT): ' +najdi]= imena_etapa(etapa)
         else:
             if 'pro' in razrez:
-                slovar['prolog' +' '+ najdi]= imena_etapa(etapa)
+                slovar['prolog: '+ najdi]= imena_etapa(etapa)
             else:slovar[razrez[6:] +'. etapa: '+ najdi]= imena_etapa(etapa)
     return slovar
 def ime_za_link(ime):
@@ -103,7 +97,7 @@ def ime_za_link(ime):
     
 # c = time.time()
 # 
-# a= pridobivanje_vseh_let(link,2020)
+a= pridobivanje_vseh_let(link,2020)
 # dat = open('dat.txt','w',encoding='utf-8')
 # print(a,file = dat)
 # dat.close()
