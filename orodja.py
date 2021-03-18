@@ -97,7 +97,7 @@ def ime_za_link(ime):
     
 # c = time.time()
 # 
-a= pridobivanje_vseh_let(link,2020)
+# a= pridobivanje_vseh_let(link,2020)
 # dat = open('dat.txt','w',encoding='utf-8')
 # print(a,file = dat)
 # dat.close()
