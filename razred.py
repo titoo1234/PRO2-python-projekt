@@ -32,9 +32,10 @@ class Kolesar:
         #self.ekipa = ekipa
         self.d_rojstva = datum_rojstva
         self.nacionalnost = drzava
-        
-        
         self.link_ime = ime
+        self.starti_tour = 0 #kolikorat je začel dirko po Franciji
+        self.konal_tour = 0 #kolikokrat je končal tour(pogleš končni GC)
+        self.starti_etap = 0 #kolikokrat je začel etapo
         
     def __str__(self):
         return "{}\n{}\n{}\n{}\n{}\n".format(self.ime, self.d_rojstva, self.nacionalnost, self.teza, self.visina) # self.ekipa!!!
