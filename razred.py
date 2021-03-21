@@ -3,7 +3,7 @@ import requests
 import re
 #import orodja
 link = "https://www.procyclingstats.com/rider"
-#ime = "primoz-roglic" 
+ime = "primoz-roglic" 
 
 class Kolesar:
     def __init__(self, ime):
@@ -36,16 +36,24 @@ class Kolesar:
         self.starti_tour = 0 #kolikorat je začel dirko po Franciji
         self.konal_tour = 0 #kolikokrat je končal tour(pogleš končni GC)
         self.starti_etap = 0 #kolikokrat je začel etapo
+        self.uvrstitve_etap = []
+        self.etapne_zmage = 0
         
     def __str__(self):
-        return "{}\n{}\n{}\n{}\n{}\n".format(self.ime, self.d_rojstva, self.nacionalnost, self.teza, self.visina) # self.ekipa!!!
+        return "Ime: {:>2}\nDatum rojstva: {:>}\nDržava: {:>}\nTeža: {:}\nVišina: {:}\n".format(self.ime, self.d_rojstva, self.nacionalnost, self.teza, self.visina) # self.ekipa!!!
     
     def __repr__(self):
         return "Kolesar({})".format(self.link_ime)
+    def dosežki(self):
+        '''izpiše statistične vrenosti kolesarja, kot so zmage, starti..'''
+        return 'Start dirke: {}\nKončane dirke: {}\nStart etap:{}\nEtapne zmage: {}\nUvrstitve:{}'.format(self.starti_tour,self.konal_tour,self.starti_etap,self.etapne_zmage, self.uvrstitve_etap) 
+                
 
 
-
-
+# ime = "primoz-roglic"
+# kol = Kolesar(ime)
+# print(kol)
+# print(kol.dosežki())
 #print(polno_ime)
 #print(ekipa)
 #print(datum_rojstva)
