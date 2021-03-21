@@ -1,10 +1,11 @@
 import time
 import requests
 import re
+import orodja
 #import orodja
 link = "https://www.procyclingstats.com/rider"
-ime = "primoz-roglic" 
-
+prevod_drzav = orodja.prevod_drzav()
+prevod_mesev = {'January': 'janunar', 'February': 'februar', 'March': 'marec','April':'april', 'May':'maj', 'June':'junij','July':'julij', 'August' :'avgust', 'September':'september', 'October':'oktober', 'November':'november', 'December':'december'}
 class Kolesar:
     def __init__(self, ime):
         req = requests.get(link + "/" + ime).text
@@ -14,11 +15,12 @@ class Kolesar:
         datum_rojstva = re.findall(r'<b>Date of birth:</b>.+<sup>.+</sup>.+<br /><b>Nationality:', podatki[0])
         dan, mesec_leto = datum_rojstva[0].split("<sup>")[:2]
         dan = dan[22:]
-        mesec_leto = mesec_leto[8:-21]
-        datum_rojstva = dan + "." + mesec_leto.lower()
+        mesec,leto,starost = mesec_leto[9:-21].split(' ')
+        
+        datum_rojstva = dan + ". " + prevod_mesev[mesec]+' ' + leto +starost
         drzava = re.findall(r'</span><a class="black" href="nation/.+">.+</a><br />', podatki[0])[0]
         drzava = drzava.split('">')[1][:-10]
-        drzava = drzava.split("</a><br />")[0]
+        drzava = prevod_drzav[drzava.split("</a><br />")[0]]
         try:
             teza = re.findall(r'Weight:</b>.+&nbsp; <span><b>Height:', podatki[0])[0][12:-24]
             visina = re.findall(r'Height:</b>.+m<br /><b>', podatki[0])[0][12:-9]
@@ -50,15 +52,7 @@ class Kolesar:
                 
 
 
-# ime = "primoz-roglic"
-# kol = Kolesar(ime)
-# print(kol)
-# print(kol.dosežki())
-#print(polno_ime)
-#print(ekipa)
-#print(datum_rojstva)
-#print(drzava)
-#print(teza)
-#print(visina)
-        
-        
+ime = "sepp-kuss"
+kol = Kolesar(ime)
+print(kol)
+# print(kol.dosežki())        

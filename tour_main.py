@@ -1,5 +1,8 @@
 import orodja
-#pridobivanje podatkov
+import branje_txt
+
+
+kolesarji = branje_txt.branje_ustvarjanje()
 
 
 
@@ -8,7 +11,8 @@ import orodja
 
 
 
-slovar = orodja.pridobivanje_vseh_let('https://www.procyclingstats.com/race/tour-de-france',2015)
+
+# slovar = orodja.pridobivanje_vseh_let('https://www.procyclingstats.com/race/tour-de-france',2015)
 # kaj = input('Kaj želiš vedeti iz Toura leta 2020? Vrstni red skupne razvrstitve(GC) ali ....')
 # input('zaenkrat boš mogu bit zadovoljen samo z naslednjim pritisne magično tipko ENTER')
 # if neki neki

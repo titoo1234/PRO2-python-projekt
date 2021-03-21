@@ -93,11 +93,32 @@ def ime_za_link(ime):
     nov = ime.lower()
     nov = nov.replace(' ','-')
     return nov
+def prevod_drzav():
+    '''naredi ang-slo slovar prevodov držav'''
+    link = 'https://www.101languages.net/slovenian/country-names-slovenian/'
+    req = requests.get(link).text
+    tab = req.split('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp')
+    nova = [i.split('<td>')[-1] for i in tab][:-1]
+    sl_drzav = {nova[i]: nova[i + 1] for i in range(0, len(nova), 2)}
+    
+    
+    for kl,vr in sl_drzav.items():
+        if '&#269' in vr:
+            sl_drzav[kl] = vr.replace('&#269;','č')
+        if '&#268' in vr:
+            sl_drzav[kl] = vr.replace('&#268;','č')
+            
+    sl_drzav['United States'] = 'Združene države Amerike'
+    sl_drzav['Great Britain'] = 'Velika Britanija'
+    return sl_drzav
 
+
+# for kl,vr in b.items():
+#     print(vr)
     
 # c = time.time()
-a= pridobivanje_vseh_let(link,2020)
-dat = open('proba.txt','w',encoding='utf-8')
-print(a,file = dat)
-dat.close()
+# a= pridobivanje_vseh_let(link,2020)
+# dat = open('proba.txt','w',encoding='utf-8')
+# print(a,file = dat)
+# dat.close()
 # print(abs(c- time.time()))

@@ -12,13 +12,13 @@ def branje_ustvarjanje():
         mn_etap = slovar_vseh_let[leto]['ETAPE']
         št_etap = 1
         for etapa in mn_etap:
-            if št_etap == 3:
-                break
+            # if št_etap == 3: #to sam zanenkrat da ne čakama predougo
+            #     break
             rezultati = slovar_vseh_let[leto]['ETAPE'][etapa]
             pozicija = 1
             for kolesar in rezultati:
-                if pozicija == 20:
-                    break
+                # if pozicija == 20: #to sam zanenkrat da ne čakama predougo
+                #     break
                 if kolesar not in mn_kolesarjev:
                     slovar_kolesarjev[kolesar] = (razred.Kolesar(orodja.ime_za_link(kolesar)))
                     mn_kolesarjev.add(kolesar)
@@ -37,18 +37,5 @@ def branje_ustvarjanje():
                     
 #                 else:
 #                     yield razred.Kolesar(orodja.ime_za_link(kolesar))
-#                     # slovar_kolesarjev[kolesar] = (razred.Kolesar(orodja.ime_za_link(kolesar)))
+
                     
-    # return slovar_kolesarjev
-   
-#dat = open("kolesarji.txt", "w", encoding="utf-8")
-# for kolesar in branje_ustvarjanje():
-#     print(kolesar)
-    
-#dat.close()
-# tab=[i for i in branje_ustvarjanje()]
-# dat = open("kolesarji.txt", "w", encoding="utf-8")
-# print(slo,file=dat)
-    
-# dat.close()
-# a = branje_ustvarjanje()
