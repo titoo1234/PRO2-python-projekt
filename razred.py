@@ -46,11 +46,18 @@ class Kolesar:
     
     def __repr__(self):
         return "Kolesar({})".format(self.link_ime)
+    
     def dosežki(self):
         '''izpiše statistične vrenosti kolesarja, kot so zmage, starti..'''
         return 'Start dirke: {}\nKončane dirke: {}\nStart etap:{}\nEtapne zmage: {}\nUvrstitve:{}'.format(self.starti_tour,self.koncal_tour,self.starti_etap,self.etapne_zmage, self.uvrstitve_etap) 
                 
-
+    def skupna_dolzina(self):
+        vsota = 0
+        for rezultat in self.uvrstitve_etap:
+            dol = float(rezultat[-1].split(" ")[-2])
+            vsota += dol
+        return vsota
+            
 
 class Drzava:
     def __init__(self, ime):
@@ -78,8 +85,8 @@ class Drzava:
     
     
 
-ime = "primoz-roglic"
-kol = Kolesar(ime)
-print(kol)
-print(kol.dosežki())
+# ime = "primoz-roglic"
+# kol = Kolesar(ime)
+# print(kol)
+# print(kol.dosežki())
 

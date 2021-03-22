@@ -12,7 +12,7 @@ datoteka = 'proba.txt'
 #     print(kolesarji[kolesar].dosežki())
 
 
-a= orodja.pridobivanje_vseh_let(link,2020)
+a= orodja.pridobivanje_vseh_let(link,2017)
 slovar_objektov = branje_txt.ustvarjanje_objektov(a)
 
  
@@ -31,10 +31,10 @@ with open('test', 'wb') as config_dictionary_file:
 with open('test', 'rb') as config_dictionary_file:
  
     # Step 3
-    config_dictionary = pickle.load(config_dictionary_file)
+    slovar_kolesarjev = pickle.load(config_dictionary_file)
  
     # After config_dictionary is read from file
-    print(config_dictionary)
+    print(slovar_kolesarjev)
 
 
 
