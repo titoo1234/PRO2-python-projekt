@@ -52,7 +52,7 @@ class Kolesar:
                 
 
 
-ime = "sepp-kuss"
-kol = Kolesar(ime)
-print(kol)
+# ime = "sepp-kuss"
+# kol = Kolesar(ime)
+# print(kol)
 # print(kol.dosežki())        

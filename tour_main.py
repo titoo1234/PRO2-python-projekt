@@ -1,9 +1,17 @@
 import orodja
 import branje_txt
+link = 'https://www.procyclingstats.com/race/tour-de-france'
+datoteka = 'proba.txt'
+
+# slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
+# slovar_objektov = ustvarjanje_objektov(slovar_imen)
+# for kolesar in slovar_objektov:
+#     print(kolesarji[kolesar])
+#     print(kolesarji[kolesar].dosežki())
 
 
-kolesarji = branje_txt.branje_ustvarjanje()
-
+a= orodja.pridobivanje_vseh_let(link,2020)
+slovar_objektov = branje_txt.ustvarjanje_objektov(a)
 
 
 
