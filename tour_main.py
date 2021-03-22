@@ -1,5 +1,7 @@
 import orodja
 import branje_txt
+
+import pickle
 link = 'https://www.procyclingstats.com/race/tour-de-france'
 datoteka = 'proba.txt'
 
@@ -13,8 +15,26 @@ datoteka = 'proba.txt'
 a= orodja.pridobivanje_vseh_let(link,2020)
 slovar_objektov = branje_txt.ustvarjanje_objektov(a)
 
+ 
+ 
+# Step 2
+with open('test', 'wb') as config_dictionary_file:
+ 
+  # Step 3
+    pickle.dump(slovar_objektov, config_dictionary_file)
+                    
+#                 else:
+#                     yield razred.Kolesar(orodja.ime_za_link(kolesar))
 
 
+# Step 2
+with open('test', 'rb') as config_dictionary_file:
+ 
+    # Step 3
+    config_dictionary = pickle.load(config_dictionary_file)
+ 
+    # After config_dictionary is read from file
+    print(config_dictionary)
 
 
 

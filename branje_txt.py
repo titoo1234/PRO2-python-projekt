@@ -1,6 +1,13 @@
 import razred
 import ast
 import orodja
+
+import pickle
+ 
+
+  
+  
+  
 def branje_ustvarjanje(datoteka):
     '''iz datoteke prebere slovar in ga naredi'''
     
@@ -9,6 +16,13 @@ def branje_ustvarjanje(datoteka):
     slovar_vseh_let = ast.literal_eval(besedilo)
     dat.close()
     return slovar_vseh_let
+
+def zamenjava_kljucev(slovar):
+    nov = dict()
+    for _, kolesar in slovar.items():
+        nov[kolesar.ime] = kolesar
+    return nov
+
 def ustvarjanje_objektov(slovar):
     '''iz slovarja prebere vsa imena kolesarjev,
         naredi objekte in k+jih shrani v nov slovar'''
@@ -39,9 +53,10 @@ def ustvarjanje_objektov(slovar):
                 
                 pozicija += 1
             št_etap += 1
-    return slovar_kolesarjev
-                    
-#                 else:
-#                     yield razred.Kolesar(orodja.ime_za_link(kolesar))
+    return zamenjava_kljucev(slovar_kolesarjev)
+
+
+
+
 
                     
