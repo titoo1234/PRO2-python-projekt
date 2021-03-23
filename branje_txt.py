@@ -30,6 +30,7 @@ def ustvarjanje_objektov(slovar):
     mn_kolesarjev = set()
     for leto in slovar:
         mn_etap = slovar[leto]['ETAPE']
+        
         št_etap = 1
         for etapa in mn_etap:
             # if št_etap == 3: #to sam zanenkrat da ne čakama predougo
@@ -43,6 +44,7 @@ def ustvarjanje_objektov(slovar):
                     slovar_kolesarjev[kolesar] = (razred.Kolesar(orodja.ime_za_link(kolesar)))
                     mn_kolesarjev.add(kolesar)
                 oseba = slovar_kolesarjev[kolesar]
+                
                 if št_etap == 1:
                     oseba.starti_tour += 1  #kolikorat je začel dirko po Franciji              
                 if pozicija == 1:
@@ -51,8 +53,17 @@ def ustvarjanje_objektov(slovar):
                 oseba.starti_etap += 1
                 
                 
+                
                 pozicija += 1
             št_etap += 1
+    for leto in slovar:
+        gc_razvrstitev = slovar[leto]['GC']
+        pozicija = 1
+        for kolesar in gc_razvrstitev:
+            oseba = slovar_kolesarjev[kolesar]
+            oseba.gc_uvrstitve.append([leto, pozicija])
+            oseba.koncal_tour += 1
+            pozicija += 1
     return zamenjava_kljucev(slovar_kolesarjev)
 
 

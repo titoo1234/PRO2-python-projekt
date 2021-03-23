@@ -117,8 +117,9 @@ def prevod_drzav():
 #     print(vr)
     
 # c = time.time()
-# a= pridobivanje_vseh_let(link,2020)
-# dat = open('proba.txt','w',encoding='utf-8')
+# a= pridobivanje_vseh_let(link,1985)
+# dat = open('dat.txt','w',encoding='utf-8')
 # print(a,file = dat)
 # dat.close()
+# print('konec')
 # print(abs(c- time.time()))

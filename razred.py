@@ -12,15 +12,21 @@ class Kolesar:
         podatki = re.findall(r'</span><h1 class="">.+<div class=""></div>', req, re.DOTALL)
         polno_ime = re.findall(r'<h1 class="">.+</h1>', podatki[0])[0][13:-5].replace("  ", " ")
         #ekipa = re.findall(r'hideIfMobile">.+</span></div><div class="sub">', podatki[0])[0][14:-30]
-        datum_rojstva = re.findall(r'<b>Date of birth:</b>.+<sup>.+</sup>.+<br /><b>Nationality:', podatki[0])
-        dan, mesec_leto = datum_rojstva[0].split("<sup>")[:2]
-        dan = dan[22:]
-        mesec,leto,starost = mesec_leto[9:-21].split(' ')
+        try:
+            datum_rojstva = re.findall(r'<b>Date of birth:</b>.+<sup>.+</sup>.+<br /><b>Nationality:', podatki[0])
+            dan, mesec_leto = datum_rojstva[0].split("<sup>")[:2]
+            dan = dan[22:]
+            mesec,leto,starost = mesec_leto[9:-21].split(' ')
+            datum_rojstva = dan + ". " + prevod_mesev[mesec]+' ' + leto +starost
+        except:
+             self.d_rojstva = 'neznano'
         
-        datum_rojstva = dan + ". " + prevod_mesev[mesec]+' ' + leto +starost
-        drzava = re.findall(r'</span><a class="black" href="nation/.+">.+</a><br />', podatki[0])[0]
-        drzava = drzava.split('">')[1][:-10]
-        drzava = prevod_drzav[drzava.split("</a><br />")[0]]
+        try:
+            drzava = re.findall(r'</span><a class="black" href="nation/.+">.+</a><br />', podatki[0])[0]
+            drzava = drzava.split('">')[1][:-10]
+            drzava = prevod_drzav[drzava.split("</a><br />")[0]]
+        except:
+            self.nacionalnost = 'neznano'
         try:
             teza = re.findall(r'Weight:</b>.+&nbsp; <span><b>Height:', podatki[0])[0][12:-24]
             visina = re.findall(r'Height:</b>.+m<br /><b>', podatki[0])[0][12:-9]
@@ -40,6 +46,7 @@ class Kolesar:
         self.starti_etap = 0 #kolikokrat je začel etapo
         self.uvrstitve_etap = []
         self.etapne_zmage = 0
+        self.gc_uvrstitve = []
         
     def __str__(self):
         return "Ime: {:>2}\nDatum rojstva: {:>}\nDržava: {:>}\nTeža: {:}\nVišina: {:}\n".format(self.ime, self.d_rojstva, self.nacionalnost, self.teza, self.visina) # self.ekipa!!!
@@ -57,6 +64,8 @@ class Kolesar:
             dol = float(rezultat[-1].split(" ")[-2])
             vsota += dol
         return vsota
+    
+
             
 
 class Drzava:
