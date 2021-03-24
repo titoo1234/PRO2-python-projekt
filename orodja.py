@@ -12,15 +12,60 @@ def imena_vseh(link,leto):
     
     tabela = req.split('<table class="basic') #tuki sam spremeni indeks in boš dobu imena za drugo
                                                  #točkovanje(2=GC,3=ZELENA,4=PIKČASTA) 
-    if leto == 1987:
-        tab = tabela[3]
-        osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
-        imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
-        imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+    if leto in range(1903,1930) or leto == 1931:
+        for i in [2]:
+            tab = tabela[i]
+            osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+            imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+            imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+            slovar['GC'] = imena
+
         
-        slovar['GC'] = imena
-    else:    
-        for i in [2]:#4 je bela majica lahk dodama...
+    elif leto in [1930,1932]:
+        for i in [2]:
+            tab = tabela[i]
+            osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+            imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+            imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+            slovar['GC'] = imena
+
+    elif leto in range(1933,1953):
+        if leto == 1939:
+            for i in [2,3,7]:
+                tab = tabela[i]
+                osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+                imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+                imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+                if i == 2:
+                    slovar['GC'] = imena
+                elif i == 3:
+                    slovar['ZeLENA'] = imena
+                else:
+                    slovar['PIK'] = imena
+        else: 
+            for i in [2,3]:
+                tab = tabela[i]
+                osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+                imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+                imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+                if i == 2:
+                    slovar['GC'] = imena
+                else:
+                    slovar['PIK'] = imena
+    elif leto in [1953,1954,1958,1965]:
+        for i in [2,3,4]:
+            tab = tabela[i]
+            osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+            imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+            imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+            if i == 2:
+                slovar['GC'] = imena
+            elif i == 3:
+                slovar['PIK'] = imena
+            else:
+                slovar['ZELENA'] = imena
+    elif leto in [1955,1956,1957,1959,1960,1961,1962,1963,1964,1966,1967,1968,1969,1970,1971,1972,1973,1974]:
+        for i in [2,3,4]:
             tab = tabela[i]
             osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
             imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
@@ -31,14 +76,75 @@ def imena_vseh(link,leto):
                 slovar['ZELENA'] = imena
             else:
                 slovar['PIK'] = imena
-    slovar['ETAPE'] = etape(link,leto)     
-        
+    elif leto in [1975,1993,2000,2007]:
+        for i in [2,3,5,6]:
+            tab = tabela[i]
+            osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+            imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+            imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+            if i == 2:
+                slovar['GC'] = imena
+            elif i == 3:
+                slovar['ZELENA'] = imena
+            elif i == 6:
+                slovar['BELA'] = imena     
+            else:
+                slovar['PIK'] = imena
+    elif leto in [1976,1978,1986,2003,2018,2019,2020]:
+        for i in [2,3,4,5]:
+            tab = tabela[i]
+            osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+            imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+            imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+            if i == 2:
+                slovar['GC'] = imena
+            elif i == 3:
+                slovar['ZELENA'] = imena
+            elif i == 4:
+                slovar['BELA'] = imena
+            else:
+                slovar['PIK'] = imena
+                
+    elif  leto == 1987:     
+        for i in [3,4,5,6]:
+            tab = tabela[i]
+            osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+            imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+            imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+            if i == 3:
+                slovar['GC'] = imena
+            elif i == 4:
+                slovar['ZELENA'] = imena
+            elif i == 6:
+                slovar['BELA'] = imena
+            else:
+                slovar['PIK'] = imena
+    else:    
+        for i in [2,3,4,5]:
+            tab = tabela[i]
+            osebe = re.findall(r'href="rider/.+">.+class="showIfMobile', tab)
+            imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
+            imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
+            if i == 2:
+                slovar['GC'] = imena
+            elif i == 3:
+                slovar['ZELENA'] = imena
+            elif i == 5:
+                slovar['BELA'] = imena
+            else:
+                slovar['PIK'] = imena
+                
+                
+    slovar['ETAPE'] = etape(link,leto)
     return slovar
 def imena_etapa(link):
     '''vrne seznam imen kolesarjev glede na posamezne razvrstitve'''
     
-    req = requests.get(link).text    
-    tab = req.split('<table class="basic')[1]                                                    
+    req = requests.get(link).text   
+    if link == 'https://www.procyclingstats.com/race/tour-de-france/1987/stage-25':#tuki je malo drugače...
+        tab = req.split('<table class="basic')[2] 
+    else:
+        tab = req.split('<table class="basic')[1]                                                    
     osebe = re.findall(r'data-nation=".+">.+class="showIfMobile', tab)
     #osebe, ki niso začele etape, ne dam v tabelo
     imena = [oseba.split('href="rider/')[1] for oseba in osebe if ('DNS' not in oseba and 'DNF' not in oseba and 'OTL' not in oseba)]
@@ -65,7 +171,7 @@ def pridobivanje_vseh_let(link, od_leta): #link = https://www.procyclingstats.co
     '''naredi slovar slovarjev slovar[leto] = slovar_imena_vseh'''
     
     slovar = dict()
-    for leto in range(od_leta,2021): #vsa_leta(link):
+    for leto in range(od_leta,1990): #vsa_leta(link): #
         slovar[leto] = imena_vseh(link + '/'+str(leto),leto)
     return slovar
 
@@ -124,7 +230,6 @@ def prevod_drzav():
     return sl_drzav
 def vsa_leta(link):
     '''vrne vsa leta, kjer se je pojavil tour'''
-    tab = []
     req = requests.get(link).text
     najdi = re.findall(r'"><option value="race/tour-de-france/2021.+href="race/tour-de-', req)[0].split('value="race/tour-de-france/')[1:]
     leta = sorted([int(niz[:4]) for niz in najdi][:-22])[:-1]

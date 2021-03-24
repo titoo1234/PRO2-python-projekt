@@ -3,7 +3,7 @@ import branje_txt
 
 import pickle
 link = 'https://www.procyclingstats.com/race/tour-de-france'
-datoteka = 'dat.txt'
+datoteka = 'datoteka.txt'
 
 # slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 # slovar_objektov = ustvarjanje_objektov(slovar_imen)
