@@ -242,6 +242,7 @@ def vsa_leta(link):
     
 # c = time.time()
 # a= pridobivanje_vseh_let(link,1985)
+# a[1987]['ETAPE']['25. etapa: 186 km'] = orodja.imena_etapa('https://www.procyclingstats.com/race/tour-de-france/1987/stage-25')
 # dat = open('dat.txt','w',encoding='utf-8')
 # print(a,file = dat)
 # dat.close()

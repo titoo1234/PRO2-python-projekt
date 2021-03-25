@@ -3,7 +3,7 @@ import branje_txt
 
 import pickle
 link = 'https://www.procyclingstats.com/race/tour-de-france'
-datoteka = 'datoteka.txt'
+datoteka = 'vse.txt'
 
 # slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 # slovar_objektov = ustvarjanje_objektov(slovar_imen)
@@ -11,23 +11,17 @@ datoteka = 'datoteka.txt'
 #     print(kolesarji[kolesar])
 #     print(kolesarji[kolesar].dosežki())
 
-# 
-# a= branje_txt.branje_ustvarjanje(datoteka)
+
+
+
 # # a= orodja.pridobivanje_vseh_let(link,1990)
 # slovar_objektov = branje_txt.ustvarjanje_objektov(a)
-# 
-#  
-#  
-#  
-#  
+  
 #  
 # #Step 1
 # with open('test', 'wb') as config_dictionary_file:
 #     pickle.dump(slovar_objektov, config_dictionary_file)
                     
-
-
-
 
 
 # step 2
