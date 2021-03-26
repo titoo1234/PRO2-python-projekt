@@ -25,7 +25,8 @@ def zamenjava_kljucev(slovar):
 
 def ustvarjanje_objektov(slovar):
     '''iz slovarja prebere vsa imena kolesarjev,
-        naredi objekte in k+jih shrani v nov slovar'''
+        naredi objekte in jih shrani v nov slovar
+    '''
     slovar_kolesarjev = dict()
     mn_kolesarjev = set()
     for leto in slovar:
@@ -64,7 +65,7 @@ def ustvarjanje_objektov(slovar):
             oseba.gc_uvrstitve.append([leto, pozicija])
             oseba.koncal_tour += 1
             pozicija += 1
-    return zamenjava_kljucev(slovar_kolesarjev)
+    return slovar_kolesarjev
 
 
 
