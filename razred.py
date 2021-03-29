@@ -63,9 +63,9 @@ class Kolesar:
     def __repr__(self):
         return "Kolesar({})".format(self.link_ime)
     
-    def dosežki(self):
+    def dosezki(self):
         '''izpiše statistične vrenosti kolesarja, kot so zmage, starti..'''
-        return 'Start dirke: {}\nKončane dirke: {}\nStart etap:{}\nEtapne zmage: {}\nUvrstitve:{}'.format(self.starti_tour,self.koncal_tour,self.starti_etap,self.etapne_zmage, self.uvrstitve_etap) 
+        return 'Start dirke: {}\nKončane dirke: {}\nStart etap: {}\nEtapne zmage: {}'.format(self.starti_tour,self.koncal_tour,self.starti_etap,self.etapne_zmage) #\nUvrstitve:{} self.uvrstitve_etap
                 
     def skupna_dolzina(self):
         vsota = 0
@@ -73,6 +73,22 @@ class Kolesar:
             dol = float(rezultat[-1].split(" ")[-2])
             vsota += dol
         return vsota
+    
+    def dolzina_toura(self, leto):
+        vsota = 0
+        for rezultat in self.uvrstitve_etap:
+            if rezultat[-2] == leto:
+                dol = float(rezultat[-1].split(" ")[-2])
+                vsota += dol
+        return round(vsota, 2)
+    
+    def kolikokrat_zmagal(self):
+        vsota = 0
+        for _,uvrstitev in self.gc_uvrstitve:
+            if uvrstitev == 1:
+                vsota += 1
+        return "Skupne zmage: " + str(vsota)
+                
     
 
             
@@ -87,7 +103,7 @@ class Drzava:
     def __repr__(self):
         return "Drzava({})".format(self.ime)
     def __str__(self):
-        return self.ime + "to je str"
+        return "Država: " + self.ime
     
     
     def doloceno_leto(self, leto):
@@ -101,22 +117,28 @@ class Drzava:
                 koncali += sum([1 for x in kolesar.gc_uvrstitve if x[0] == leto])
         return mn_k, st_etapnih_z, len(mn_k), koncali
     
-    def zmaga(self, leto):
+    def zmaga_leto(self, leto):
         for kolesar in self.tekmovalci:
             for uvr in kolesar.gc_uvrstitve:
                 if uvr[0] == leto and uvr[1] == 1:
                     return True
         return False
     
+    def skupne_zmage(self):
+        vsota = 0
+        for kolesar in self.tekmovalci:
+            vsota += int(kolesar.kolikokrat_zmagal().split()[-1])
+        return "Skupne zmage: " + str(vsota)
+    
     
     def st_startov_tour(self):
         return sum([kolesar.starti_tour for kolesar in self.tekmovalci])
     
     def st_starti_etap(self):
-        return sum([kolesar.starti_tour for kolesar in self.tekmovalci])
+        return "Start etap: " + str(sum([kolesar.starti_etap for kolesar in self.tekmovalci]))
     
     def st_etapnih_zmag(self):
-        return sum([kolesar.etapne_zmage for kolesar in self.tekmovalci])
+        return "Etapne zmage: " + str(sum([kolesar.etapne_zmage for kolesar in self.tekmovalci]))
     
     #def st_etapnih_zmag(self):
         #return sum([kolesar.etapne_zmage for kolesar in self.tekmovalci])
