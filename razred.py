@@ -19,7 +19,7 @@ class Kolesar:
             mesec,leto,starost = mesec_leto[9:-21].split(' ')
             datum_rojstva = dan + ". " + prevod_mesev[mesec]+' ' + leto +starost
         except:
-             self.d_rojstva = 'neznano'
+            self.d_rojstva = 'neznano'
         
         try:
             drzava = re.findall(r'</span><a class="black" href="nation/.+">.+</a><br />', podatki[0])[0]
@@ -47,6 +47,15 @@ class Kolesar:
         self.uvrstitve_etap = []
         self.etapne_zmage = 0
         self.gc_uvrstitve = []
+        
+    def leta(self):
+        sl = dict()
+        for uvrstitev in self.uvrstitve_etap:
+            if uvrstitev[1] not in sl:
+                sl[uvrstitev[1]] = [uvrstitev]
+            else:
+                sl[uvrstitev[1]].append(uvrstitev)
+        return sl
         
     def __str__(self):
         return "Ime: {:>2}\nDatum rojstva: {:>}\nDržava: {:>}\nTeža: {:}\nVišina: {:}\n".format(self.ime, self.d_rojstva, self.nacionalnost, self.teza, self.visina) # self.ekipa!!!
@@ -76,10 +85,29 @@ class Drzava:
     def dodaj_tekmovalca(self, kolesar):
         self.tekmovalci.add(kolesar)
     def __repr__(self):
-        return self.ime
+        return "Drzava({})".format(self.ime)
     def __str__(self):
-        return self.ime
-        
+        return self.ime + "to je str"
+    
+    
+    def doloceno_leto(self, leto):
+        mn_k = set()
+        st_etapnih_z = 0
+        koncali = 0
+        for kolesar in self.tekmovalci:
+            if leto in kolesar.leta():
+                mn_k.add(kolesar)
+                st_etapnih_z += sum([1 for x in kolesar.leta()[leto] if x[0] == 1])
+                koncali += sum([1 for x in kolesar.gc_uvrstitve if x[0] == leto])
+        return mn_k, st_etapnih_z, len(mn_k), koncali
+    
+    def zmaga(self, leto):
+        for kolesar in self.tekmovalci:
+            for uvr in kolesar.gc_uvrstitve:
+                if uvr[0] == leto and uvr[1] == 1:
+                    return True
+        return False
+    
     
     def st_startov_tour(self):
         return sum([kolesar.starti_tour for kolesar in self.tekmovalci])
@@ -90,8 +118,8 @@ class Drzava:
     def st_etapnih_zmag(self):
         return sum([kolesar.etapne_zmage for kolesar in self.tekmovalci])
     
-    def st_etapnih_zmag(self):
-        return sum([kolesar.etapne_zmage for kolesar in self.tekmovalci])
+    #def st_etapnih_zmag(self):
+        #return sum([kolesar.etapne_zmage for kolesar in self.tekmovalci])
     
     def st_tekmovalcev(self):
         return len(self.tekmovalci)

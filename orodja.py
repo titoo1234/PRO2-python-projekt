@@ -227,7 +227,12 @@ def prevod_drzav():
             
     sl_drzav['United States'] = 'Združene države Amerike'
     sl_drzav['Great Britain'] = 'Velika Britanija'
-    return sl_drzav
+    sl_drzav['Yugoslavia'] = 'Jugoslavija'
+    nov = dict()
+    for drzava in sl_drzav:
+        nov[drzava] = sl_drzav[drzava].capitalize()
+    
+    return nov
 def vsa_leta(link):
     '''vrne vsa leta, kjer se je pojavil tour'''
     req = requests.get(link).text
