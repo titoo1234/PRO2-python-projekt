@@ -1,6 +1,7 @@
 import orodja
 import branje_txt
 from razred import *
+import difflib
 
 import pickle
 link = 'https://www.procyclingstats.com/race/tour-de-france'
@@ -41,5 +42,40 @@ for kolesar in slovar_kolesarjev_brez_pravih_imen:
         
         
 
-print(mn_drzav["Slovenija"].zmaga(2020))
+#print(mn_drzav["Slovenija"].zmaga(2020))
+kolesarji = list(slovar_kolesarjev_prava_imena.keys())
+        
+print("Zdravo mitja tole")
+print("analiza toura")
+print("izberi med naslednjimi analizami")
+print("1. dolocen kolesar")
+print("2. doloceno leto")
+print("3. dolocena drzava")
+print("4. nasplosno o touru?")
+print("5. končaj")
 
+b = int(input())
+nadaljuj = True
+while nadaljuj:
+    if b == 1:
+        a = input()
+        #print(difflib.get_close_matches(a, kolesarji))
+        if a in slovar_kolesarjev_prava_imena:
+            pass # nardis kar je treba
+        elif len(difflib.get_close_matches(a, kolesarji)) > 0:
+            print("Ste morda mislili katerega od naslednjiih kolesarjev?")
+            print(", ".join(difflib.get_close_matches(a, kolesarji)))
+        else:
+            print("Napačen vnos, poskusite znova!")
+            
+    if b == 2:
+        pass
+    
+    if b == 3:
+        pass
+    
+    if b == 4:
+        pass
+    
+    if b == 5:
+        break
