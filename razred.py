@@ -75,6 +75,10 @@ class Drzava:
         
     def dodaj_tekmovalca(self, kolesar):
         self.tekmovalci.add(kolesar)
+    def __repr__(self):
+        return self.ime
+    def __str__(self):
+        return self.ime
         
     
     def st_startov_tour(self):

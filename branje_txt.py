@@ -29,6 +29,7 @@ def ustvarjanje_objektov(slovar):
     '''
     slovar_kolesarjev = dict()
     mn_kolesarjev = set()
+    mn_držav = set()
     for leto in slovar:
         mn_etap = slovar[leto]['ETAPE']
         

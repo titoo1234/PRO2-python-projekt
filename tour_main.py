@@ -30,4 +30,4 @@ with open('slovar_objektov_datoteka', 'rb') as datoteka:
 
 
 
-
+a = slovar_kolesarjev_prava_imena['Primož Roglič']
