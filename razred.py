@@ -146,6 +146,8 @@ class Drzava:
     def st_tekmovalcev(self):
         return len(self.tekmovalci)
     
+
+    
     
 
 # ime = "primoz-roglic"

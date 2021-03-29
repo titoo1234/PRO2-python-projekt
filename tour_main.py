@@ -58,7 +58,7 @@ print("6.) Končaj")
 
 #stevka = int(input())
 
-while True:
+while False:
     stevka = int(input())
     if stevka == 1:
         print("Vnesi ime željenega kolesarja oblike ime-priimek!")
@@ -86,9 +86,24 @@ while True:
             
             print("Število tekmovalcev na startu dirke: " + str(len(slovar_imen[leto]["ETAPE"][prva_etapa])))
             print("Število tekmovalcev na koncu dirke " + str(len(slovar_imen[leto]["GC"])))
-            print("Zmagovalec dirke: " + slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["GC"][0]].ime)
             print("Dolžina dirke " + str(slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["GC"][0]].dolzina_toura(leto)))
-    
+            print("Zmagovalec dirke: " + slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["GC"][0]].ime)
+            try: 
+                print("Zmagovalec točkovanja za zeleno majico: " + slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["ZELENA"][0]].ime)
+            except:
+                print("Točkovanja za zeleno majico ni bilo")
+            try: 
+                print("Zmagovalec točkovanja za pikčasto majico: " + slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["PIK"][0]].ime)
+            except:
+                print("Točkovanja za pikčasto majico ni bilo")
+            try: 
+                print("Najboljši mladi kolesar (dobitnik bele majice): " + slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["BELA"][0]].ime)
+            except:
+                print('Bele majice to leto niso podeljevali.')
+            # print('Država z največ etapnimi zmagami: ' + orodja.najuspesnejse_drzave(leto,sl_drzav))
+                
+                      
+                
     elif stevka == 3:
         print("Vnesi ime željene države v slovenščini")
         drzava = input()

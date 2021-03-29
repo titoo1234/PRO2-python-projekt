@@ -240,6 +240,15 @@ def vsa_leta(link):
     leta = sorted([int(niz[:4]) for niz in najdi][:-22])[:-1]
     return leta
 
+def najuspesnejse_drzave(leto,slovar):
+    '''vrne tabelo dvojic, kjer je leva vrednost država, desna pa število zmag'''
+    tab = []
+    for drzava in slovar:
+            
+        tab.append([slovar[drzava].ime,slovar[drzava].doloceno_leto[1]])
+        nova = tab.sorted(tab,key = lambda x: x[1])
+    return nova
+
 
 
 # for kl,vr in b.items():
