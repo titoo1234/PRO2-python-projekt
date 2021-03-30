@@ -58,7 +58,7 @@ print("6.) Končaj")
 
 #stevka = int(input())
 
-while False:
+while True:
     stevka = int(input())
     if stevka == 1:
         print("Vnesi ime željenega kolesarja oblike ime-priimek!")
@@ -100,7 +100,7 @@ while False:
                 print("Najboljši mladi kolesar (dobitnik bele majice): " + slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["BELA"][0]].ime)
             except:
                 print('Bele majice to leto niso podeljevali.')
-            # print('Država z največ etapnimi zmagami: ' + orodja.najuspesnejse_drzave(leto,sl_drzav))
+            print('Država z največ etapnimi zmagami: ' + orodja.najuspesnejse_drzave(leto,sl_drzav)[0][0] +': '+ str(orodja.najuspesnejse_drzave(leto,sl_drzav)[0][1]) )
                 
                       
                 

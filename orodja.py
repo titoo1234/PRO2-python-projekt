@@ -245,8 +245,8 @@ def najuspesnejse_drzave(leto,slovar):
     tab = []
     for drzava in slovar:
             
-        tab.append([slovar[drzava].ime,slovar[drzava].doloceno_leto[1]])
-        nova = tab.sorted(tab,key = lambda x: x[1])
+        tab.append((slovar[drzava].ime,slovar[drzava].doloceno_leto(leto)[1]))
+        nova = sorted(tab,key = lambda x: x[1])[::-1]
     return nova
 
 
