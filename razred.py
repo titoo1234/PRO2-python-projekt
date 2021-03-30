@@ -130,6 +130,15 @@ class Drzava:
             vsota += int(kolesar.kolikokrat_zmagal().split()[-1])
         return "Skupne zmage: " + str(vsota)
     
+    @staticmethod
+    def najuspesnejse_drzave(leto,slovar):
+        '''vrne tabelo dvojic, kjer je leva vrednost država, desna pa število zmag'''
+        tab = []
+        for drzava in slovar:    
+            tab.append((slovar[drzava].ime,slovar[drzava].doloceno_leto(leto)[1]))
+            nova = sorted(tab,key = lambda x: x[1])[::-1]
+        return nova
+    
     
     def st_startov_tour(self):
         return sum([kolesar.starti_tour for kolesar in self.tekmovalci])
