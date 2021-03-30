@@ -240,14 +240,10 @@ def vsa_leta(link):
     leta = sorted([int(niz[:4]) for niz in najdi][:-22])[:-1]
     return leta
 
-# def najuspesnejse_drzave(leto,slovar):
-#     '''vrne tabelo dvojic, kjer je leva vrednost država, desna pa število zmag'''
-#     tab = []
-#     for drzava in slovar:
-#             
-#         tab.append((slovar[drzava].ime,slovar[drzava].doloceno_leto(leto)[1]))
-#         nova = sorted(tab,key = lambda x: x[1])[::-1]
-#     return nova
+def izpisi_lepo(tab):
+    '''[1, 2018, '19. etapa: 200.5 km'] izpiše na lep način'''
+    return str(tab[0]) + '. mesto; leto: ' + str(tab[1]) +'; ' + tab[2]
+ 
 
 
 

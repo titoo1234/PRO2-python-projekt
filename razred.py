@@ -18,6 +18,9 @@ class Kolesar:
             dan = dan[22:]
             mesec,leto,starost = mesec_leto[9:-21].split(' ')
             datum_rojstva = dan + ". " + prevod_mesev[mesec]+' ' + leto +starost
+            if '<br/><span><b>P' in datum_rojstva:
+                datum_rojstva = datum_rojstva.replace('<br/><span><b>P','')
+            
         except:
             self.d_rojstva = 'neznano'
         
@@ -38,6 +41,8 @@ class Kolesar:
         
         self.ime = polno_ime
         #self.ekipa = ekipa
+        if datum_rojstva == []:
+                datum_rojstva = 'neznano'
         self.d_rojstva = datum_rojstva
         self.nacionalnost = drzava
         self.link_ime = ime
@@ -88,6 +93,11 @@ class Kolesar:
             if uvrstitev == 1:
                 vsota += 1
         return "Skupne zmage: " + str(vsota)
+    
+    def najbolse_uvrstitve(self):
+        '''vrne seznam uvrstitev glede na mesto'''
+        tab = sorted(self.uvrstitve_etap, key = lambda x: x[0])
+        return tab
                 
     
 

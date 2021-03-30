@@ -8,6 +8,12 @@ import pickle
 link = 'https://www.procyclingstats.com/race/tour-de-france'
 datoteka = 'vse.txt'
 
+#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
+#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
+#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
+#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
+
+
 slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 # slovar_objektov_brez = branje_txt.ustvarjanje_objektov(slovar_imen)
 # slovar_objektov =  branje_txt.zamenjava_kljucev(slovar_objektov_brez)
@@ -63,17 +69,31 @@ while True:
     stevka = int(input())
     if stevka == 1:
         print("Vnesi ime željenega kolesarja oblike ime-priimek!")
-        kolesar = input("Kolesar: ")
-        #print(difflib.get_close_matches(a, kolesarji))
-        if kolesar in slovar_kolesarjev_prava_imena:
-            print(slovar_kolesarjev_prava_imena[kolesar])
-            print(slovar_kolesarjev_prava_imena[kolesar].dosezki())
-            print(slovar_kolesarjev_prava_imena[kolesar].kolikokrat_zmagal())
-        elif len(difflib.get_close_matches(kolesar, kolesarji)) > 0:
-            print("Ste morda mislili katerega od naslednjiih kolesarjev?")
-            print(", ".join(difflib.get_close_matches(kolesar, kolesarji)))
-        else:
-            print("Napačen vnos, poskusite znova!")
+        while True:
+            kolesar = input("Kolesar: ")
+            #print(difflib.get_close_matches(a, kolesarji))
+            if kolesar in slovar_kolesarjev_prava_imena:
+                oseba = slovar_kolesarjev_prava_imena[kolesar]
+                print(oseba)
+                print(oseba.dosezki())
+                print(oseba.kolikokrat_zmagal())
+                print('Najboljše etapne uvrstitve: ' + orodja.izpisi_lepo(oseba.najbolse_uvrstitve()[0]) )
+                for i in range(1,11):
+                    try:
+                        print('                            ' + orodja.izpisi_lepo(oseba.najbolse_uvrstitve()[i]))
+                    except:
+                        pass
+                
+                
+                print()
+                vnos = input("Želite nadaljevati? (da/ne) ")
+                if vnos != "da":
+                    break
+            elif len(difflib.get_close_matches(kolesar, kolesarji)) > 0:
+                print("Ste morda mislili katerega od naslednjiih kolesarjev?")
+                print(", ".join(difflib.get_close_matches(kolesar, kolesarji)))
+            else:
+                print("Napačen vnos, poskusite znova!")
             
     elif stevka == 2:
         while True:
@@ -93,7 +113,7 @@ while True:
                     break
                 
                 print("")
-                print("Število tekmovalcev na startu dirke: " + str(len(slovar_imen[leto]["ETAPE"][prva_etapa])))
+                print("Število tekmovalcev na startu dirke: "+ str(len(slovar_imen[leto]["ETAPE"][prva_etapa])))
                 print("Število tekmovalcev na koncu dirke " + str(len(slovar_imen[leto]["GC"])))
                 print("Dolžina dirke " + str(slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["GC"][0]].dolzina_toura(leto)))
                 print("Zmagovalec dirke: " + slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["GC"][0]].ime)
@@ -116,10 +136,41 @@ while True:
                         print('                                  ' + Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][0] +' ('+ str(Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][1]) + ")")
                     else:
                         break
+                vnos = input('Želite pogledati še rezultate posamičnih etap? da/ne ')
+                if vnos == 'da':
+                    print()
+                    print('To leto je bilo izvedenih ' +str(len(slovar_imen[leto]['ETAPE'])) +' etap:')
+                    etape = list(slovar_imen[leto]['ETAPE'].keys())
+                    for i in range(1,len(slovar_imen[leto]['ETAPE']) + 1):
+                        print(str(i)+') ' + etape[i-1])
+                    print('Izberite etapo, katere rezultate bi si želeli pogledati.')
+                    while True:
                 
+                        vnos = input('Vnesite številko: ')
+                        
+                        if vnos not in [str(i) for i in range(1,(len(slovar_imen[leto]['ETAPE'])))]:
+                            print('Neveljaven vnos ali leto. Izbirati morate med številom 1 in ' + str(len(slovar_imen[leto]['ETAPE'])+1))
+                        else:
+                            print()
+                            rezultat = slovar_imen[leto]['ETAPE'][etape[int(vnos)-1]]
+                            for i in range(1,11):
+                                try:
+                               
+                                    print(str(i) +'. mesto: '+ slovar_kolesarjev_brez_pravih_imen[rezultat[i-1]].ime )
+                                except:
+                                    pass
+                            vnos = input('Želite izvedeti še rezultate za druge etape? da/ne ')
+                            if vnos != 'da':
+                                
+                                break
+                            
+                        
+                        
+                        
+                    
                 print("")
                 #frekvenčni kolač
-                vnos = input("Želite nadaljevati? (da/ne) ")
+                vnos = input("Želite nadaljevati s kakšnim drugim letom? (da/ne) ")
                 if vnos != "da":
                     break
                       
