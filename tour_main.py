@@ -3,7 +3,7 @@ import branje_txt
 from razred import *
 import difflib
 from orodja import *
-
+# import grafi
 import pickle
 link = 'https://www.procyclingstats.com/race/tour-de-france'
 datoteka = 'vse.txt'
@@ -111,7 +111,7 @@ while True:
                 for x in slovar_imen[leto]["ETAPE"]:
                     prva_etapa = x
                     break
-                
+                # grafi.graf_zmage_drzav(Drzava.najuspesnejse_drzave(leto,sl_drzav))
                 print("")
                 print("Število tekmovalcev na startu dirke: "+ str(len(slovar_imen[leto]["ETAPE"][prva_etapa])))
                 print("Število tekmovalcev na koncu dirke " + str(len(slovar_imen[leto]["GC"])))
