@@ -3,6 +3,7 @@ import requests
 import re
 import orodja
 #import orodja
+
 link = "https://www.procyclingstats.com/rider"
 prevod_drzav = orodja.prevod_drzav()
 prevod_mesev = {'January': 'janunar', 'February': 'februar', 'March': 'marec','April':'april', 'May':'maj', 'June':'junij','July':'julij', 'August' :'avgust', 'September':'september', 'October':'oktober', 'November':'november', 'December':'december'}
@@ -63,14 +64,14 @@ class Kolesar:
         return sl
         
     def __str__(self):
-        return "Ime: {:>2}\nDatum rojstva: {:>}\nDržava: {:>}\nTeža: {:}\nVišina: {:}\n".format(self.ime, self.d_rojstva, self.nacionalnost, self.teza, self.visina) # self.ekipa!!!
+        return "{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n".format("Ime",self.ime, "Datum rojstva", self.d_rojstva, "Država", self.nacionalnost, "Teža", self.teza, "Višina", self.visina) # self.ekipa!!!
     
     def __repr__(self):
         return "Kolesar({})".format(self.link_ime)
     
     def dosezki(self):
         '''izpiše statistične vrenosti kolesarja, kot so zmage, starti..'''
-        return 'Start dirke: {}\nKončane dirke: {}\nStart etap: {}\nEtapne zmage: {}'.format(self.starti_tour,self.koncal_tour,self.starti_etap,self.etapne_zmage) #\nUvrstitve:{} self.uvrstitve_etap
+        return '{:>15} | {:}\n{:>15} | {:}\n{:>15} | {:}\n{:>15} | {:}'.format("Start dirke",self.starti_tour,"Končane dirke",self.koncal_tour,"Start etap",self.starti_etap,"Etapne zmage",self.etapne_zmage) #\nUvrstitve:{} self.uvrstitve_etap
                 
     def skupna_dolzina(self):
         vsota = 0
@@ -92,7 +93,7 @@ class Kolesar:
         for _,uvrstitev in self.gc_uvrstitve:
             if uvrstitev == 1:
                 vsota += 1
-        return "Skupne zmage: " + str(vsota)
+        return "{:>15} | {:}".format("Skupne zmage", vsota)
     
     def najbolse_uvrstitve(self):
         '''vrne seznam uvrstitev glede na mesto'''
@@ -113,7 +114,7 @@ class Drzava:
     def __repr__(self):
         return "Drzava({})".format(self.ime)
     def __str__(self):
-        return "Država: " + self.ime
+        return "{:>15} | {:}".format("Država", self.ime)
     
     
     def doloceno_leto(self, leto):
@@ -138,7 +139,7 @@ class Drzava:
         vsota = 0
         for kolesar in self.tekmovalci:
             vsota += int(kolesar.kolikokrat_zmagal().split()[-1])
-        return "Skupne zmage: " + str(vsota)
+        return "{:>15} | {:}".format("Skupne zmage", vsota)
     
     @staticmethod
     def najuspesnejse_drzave(leto,slovar):
@@ -154,10 +155,10 @@ class Drzava:
         return sum([kolesar.starti_tour for kolesar in self.tekmovalci])
     
     def st_starti_etap(self):
-        return "Start etap: " + str(sum([kolesar.starti_etap for kolesar in self.tekmovalci]))
+        return "{:>15} | {:}".format("Start etap", sum([kolesar.starti_etap for kolesar in self.tekmovalci]))
     
     def st_etapnih_zmag(self):
-        return "Etapne zmage: " + str(sum([kolesar.etapne_zmage for kolesar in self.tekmovalci]))
+        return "{:>15} | {:}".format("Etapne zmage", sum([kolesar.etapne_zmage for kolesar in self.tekmovalci]))
     
     #def st_etapnih_zmag(self):
         #return sum([kolesar.etapne_zmage for kolesar in self.tekmovalci])

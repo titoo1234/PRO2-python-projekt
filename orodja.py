@@ -243,6 +243,14 @@ def vsa_leta(link):
 def izpisi_lepo(tab):
     '''[1, 2018, '19. etapa: 200.5 km'] izpiše na lep način'''
     return str(tab[0]) + '. mesto; leto: ' + str(tab[1]) +'; ' + tab[2]
+def zmagovalci(slovar_imen,slovar_kolesarjev):
+    '''vrne tabelo zmagovalcev toura'''
+    zmagovalci = []
+    for leto in slovar_imen:
+        zmagovalec = slovar_imen[leto]['GC'][0]
+        zmagovalci.append((slovar_kolesarjev[zmagovalec],leto))
+    return zmagovalci
+
  
 
 
