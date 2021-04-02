@@ -100,7 +100,9 @@ class Kolesar:
         tab = sorted(self.uvrstitve_etap, key = lambda x: x[0])
         return tab
                 
-    
+    def razmerje(self):
+        """ vrne razmerje etapnih zmag in koncanih etap"""
+        return round(self.etapne_zmage/self.starti_etap, 3)
 
             
 

@@ -170,10 +170,6 @@ while True:
                             if vnos != 'da':
                                 
                                 break
-                            
-                        
-                        
-                        
                     
                 print("")
                 #frekvenčni kolač
@@ -221,35 +217,24 @@ while True:
                 etape.append(etapa + ' ' + str(leto))
         najdalse = sorted(etape, key=lambda x: float(x.split()[-3]))
         print("{:>40s} | {:}".format('Število vseh etap', len(najdalse)) )
-
         print("{:>40s} | {:s}".format('Najdalša etapa',najdalse[-1]))
         print("{:>40s} | {:s}".format('Najkrajša etapa',najdalse[1])) #ena etapa je bila odpovedana
         naj = round(sum([float(x.split()[-3]) for x in najdalse])/len(najdalse),2)
         print("{:>40s} | {:} {}".format('Povprečna dolžina etape ',naj,'km'))
-        # zmagovalci = []
-        # for leto in slovar_imen:
-        #     zmagovalec = slovar_imen[leto]['GC'][0]
-        #     zmagovalci.append()
-        # print(zmagovalci(slovar_imen,slovar_kolesarjev_brez_pravih_imen))
         z = zmagovalci(slovar_imen,slovar_kolesarjev_brez_pravih_imen)
-                       
         dolzine = sorted([(kolesar[0].dolzina_toura(kolesar[1]),kolesar[1]) for kolesar in z],key=lambda x: x[0])
-        
         # print(dolzine)
-    
-    
-    
         print("{:>40s} | {:}".format('Najdalša dolžina celotne Dirke',dolzine[-1][0]))
-        #najdalši tour
         print("{:>40s} | {:}".format('Najkrajša dolžina celotne Dirke',dolzine[0][0]))
         povp = round(sum([x[0] for x in dolzine])/len(dolzine),2)
         print("{:>40s} | {:}".format('Povprečna dolžina celotne Dirke',povp))
-        
-        
-        
-        #najuspešnješji kolesar(etape)
-        #najuspešnejši kolesar(skupno)
-        #najbolši kolesar zmaga/št etap --> metoda razred
+        najkolesar_etape = max([(kolesar.etapne_zmage, kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
+        najkolesar_skupno = max([(kolesar.kolikokrat_zmagal().split()[-1], kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
+        print("{:>40s} | {:} ({})".format('Kolesar z največ etapnimi zmagami',najkolesar_etape[1], najkolesar_etape[0]))
+        print("{:>40s} | {:} ({})".format('Kolesar z največ skupnimi zmagami',najkolesar_skupno[1], najkolesar_skupno[0]))
+        najkolesar_razmerje = max([(kolesar.razmerje(), kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
+        print("{:>40s} | {:} ({})".format('Najboljše razmerje etapne zmage/končane etape',najkolesar_razmerje[1], najkolesar_razmerje[0]))
+
         #največje število etpanih zmag na enem touru kolesar
         # največje število etapnih zmag na enem touru država
         #največje število zmaganih tourov dražva
