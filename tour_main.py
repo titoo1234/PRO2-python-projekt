@@ -5,6 +5,7 @@ import difflib
 from orodja import *
 # import grafi
 import pickle
+from grafi import *
 link = 'https://www.procyclingstats.com/race/tour-de-france'
 datoteka = 'vse.txt'
 
@@ -74,7 +75,7 @@ while True:
             
         
     if stevka == 1:
-        print("Vnesi ime željenega kolesarja oblike ime-priimek!")
+        print("Vnesi ime željenega kolesarja oblike Ime Priimek!")
         while True:
             kolesar = input("Kolesar: ")
             #print(difflib.get_close_matches(a, kolesarji))
@@ -143,6 +144,9 @@ while True:
                         print("{:>50s} | {:s}".format(' ' , Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][0] +' ('+ str(Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][1]) + ")"))
                     else:
                         break
+                kolac_drzave_zmage(Drzava.najuspesnejse_drzave(leto,sl_drzav))
+                
+                
                 vnos = input('Želite pogledati še rezultate posamičnih etap? da/ne ')
                 if vnos == 'da':
                     print()
@@ -193,6 +197,11 @@ while True:
                 print(sl_drzav[drzava].st_etapnih_zmag())
                 print(sl_drzav[drzava].skupne_zmage())
                 #linijski diagram
+                tab = []
+                for leto in vsa_leta(link):
+                    a, b = sl_drzav[drzava].doloceno_leto(leto)[1:3]
+                    tab.append((leto, a, b))
+                graf_zmage_drzav_test(tab)
                 print("")
                 vnos = input("Želite nadaljevati? (da/ne) ")
                 if vnos != "da":
@@ -223,7 +232,6 @@ while True:
         print("{:>40s} | {:} {}".format('Povprečna dolžina etape ',naj,'km'))
         z = zmagovalci(slovar_imen,slovar_kolesarjev_brez_pravih_imen)
         dolzine = sorted([(kolesar[0].dolzina_toura(kolesar[1]),kolesar[1]) for kolesar in z],key=lambda x: x[0])
-        # print(dolzine)
         print("{:>40s} | {:}".format('Najdalša dolžina celotne Dirke',dolzine[-1][0]))
         print("{:>40s} | {:}".format('Najkrajša dolžina celotne Dirke',dolzine[0][0]))
         povp = round(sum([x[0] for x in dolzine])/len(dolzine),2)
@@ -232,14 +240,17 @@ while True:
         najkolesar_skupno = max([(kolesar.kolikokrat_zmagal().split()[-1], kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
         print("{:>40s} | {:} ({})".format('Kolesar z največ etapnimi zmagami',najkolesar_etape[1], najkolesar_etape[0]))
         print("{:>40s} | {:} ({})".format('Kolesar z največ skupnimi zmagami',najkolesar_skupno[1], najkolesar_skupno[0]))
-        najkolesar_razmerje = max([(kolesar.razmerje(), kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
-        print("{:>40s} | {:} ({})".format('Najboljše razmerje etapne zmage/končane etape',najkolesar_razmerje[1], najkolesar_razmerje[0]))
+        najkolesar_razmerje = sorted([(kolesar.razmerje(), kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])[::-1]
+        print("{:>40s} | {:} ({})".format('Najboljše razmerje etapne zmage/končane etape', najkolesar_razmerje[0][1], najkolesar_razmerje[0][0]))
+        print("{:>40s} | {:} ({})".format(' ', najkolesar_razmerje[1][1], najkolesar_razmerje[1][0]))
+        print("{:>40s} | {:} ({})".format(' ', najkolesar_razmerje[2][1], najkolesar_razmerje[2][0]))
 
         #največje število etpanih zmag na enem touru kolesar
         # največje število etapnih zmag na enem touru država
         #največje število zmaganih tourov dražva
         #
         print('Najuspešnjejše države:')
+        
         #histogram,fr. kolač
         
         
