@@ -83,14 +83,17 @@ while True:
                 oseba = slovar_kolesarjev_prava_imena[kolesar]
                 print(oseba)
                 print(oseba.dosezki())
-                print(oseba.kolikokrat_zmagal())
-                print('{:25} {}'.format('Najboljše etapne uvrstitve:',orodja.izpisi_lepo(oseba.najbolse_uvrstitve()[0])) )
+                print("{:>15s} | {}".format('Razmerje:  Število zmag / Start etap', oseba.razmerje()))
+                print("{:>15s} | {}".format('Skupaj prevoženih kilometrov', oseba.skupna_dolzina()))               
+                print("{:>15s} | {}".format('Zmagal tour',oseba.kolikokrat_zmagal()))                                      
+                print('{:25} {}'.format('Najboljše etapne uvrstitve:',orodja.izpisi_lepo(oseba.najbolse_uvrstitve()[0])))
                 for i in range(1,11):
                     try:
-                        print('                            ' + orodja.izpisi_lepo(oseba.najbolse_uvrstitve()[i]))
+                        print('{:27} {}'.format(' ' , orodja.izpisi_lepo(oseba.najbolse_uvrstitve()[i])))
                     except:
                         pass
-                
+                #relativna razvrstitev glede na število vseh tekmovalcev?
+                #Posebni dosežki?
                 
                 print()
                 vnos = input("Želite nadaljevati? (da/ne) ")
@@ -160,7 +163,7 @@ while True:
                         vnos = input('Vnesite številko: ')
                         
                         if vnos not in [str(i) for i in range(1,(len(slovar_imen[leto]['ETAPE'])+1))]:
-                            print('Neveljaven vnos ali leto. Izbirati morate med številom 1 in ' + str(len(slovar_imen[leto]['ETAPE'])+1))
+                            print('Neveljaven vnos ali leto. Izbirati morate med številom 1 in ' + str(len(slovar_imen[leto]['ETAPE'])))
                         else:
                             print()
                             rezultat = slovar_imen[leto]['ETAPE'][etape[int(vnos)-1]]
@@ -191,11 +194,23 @@ while True:
                 print("Napačen vnos, poskusite znova!")
                 continue
             if drzava in sl_drzav:
-                print(sl_drzav[drzava])
-                print("Število tekmovalcev skozi leta: " + str(sl_drzav[drzava].st_tekmovalcev()))
-                print(sl_drzav[drzava].st_starti_etap())
-                print(sl_drzav[drzava].st_etapnih_zmag())
-                print(sl_drzav[drzava].skupne_zmage())
+                dr = sl_drzav[drzava]
+                print(dr)
+                print("{:>15} | {:}".format("Število tekmovalcev skozi leta" , str(sl_drzav[drzava].st_tekmovalcev())))
+                tab_kolesarjev = sorted([(kolesar.ime,kolesar.etapne_zmage) for kolesar in dr.tekmovalci],key = lambda x: x[1])[::-1]
+
+                print("{:>15} | {:} ({})".format('Najuspešnejši kolesarji glede na etapne zmage',tab_kolesarjev[0][0],tab_kolesarjev[0][1]))
+                for i in range(1,5):
+                    if tab_kolesarjev[i][1] != 0:
+                        print("{:>15} | {:} ({})".format(' ',tab_kolesarjev[i][0],tab_kolesarjev[i][1]))
+                print(dr.st_starti_etap())
+                print(dr.st_etapnih_zmag())
+                print(dr.skupne_zmage())
+                zmage_skozi_leta = dr.etapne_zmage_skozi_leta()
+                print("{:>15} | {:} ({})".format('Najuspešnejša leta',zmage_skozi_leta[0][0],zmage_skozi_leta[0][1]))
+                for i in range(1,5):
+                    if zmage_skozi_leta[i][1] != 0:
+                        print("{:>15} | {:} ({})".format(' ',zmage_skozi_leta[i][0],zmage_skozi_leta[i][1]))
                 #linijski diagram
                 tab = []
                 for leto in vsa_leta(link):
@@ -237,19 +252,30 @@ while True:
         povp = round(sum([x[0] for x in dolzine])/len(dolzine),2)
         print("{:>40s} | {:}".format('Povprečna dolžina celotne Dirke',povp))
         najkolesar_etape = max([(kolesar.etapne_zmage, kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
-        najkolesar_skupno = max([(kolesar.kolikokrat_zmagal().split()[-1], kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
+        najkolesar_skupno = max([(kolesar.kolikokrat_zmagal(), kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])
         print("{:>40s} | {:} ({})".format('Kolesar z največ etapnimi zmagami',najkolesar_etape[1], najkolesar_etape[0]))
         print("{:>40s} | {:} ({})".format('Kolesar z največ skupnimi zmagami',najkolesar_skupno[1], najkolesar_skupno[0]))
         najkolesar_razmerje = sorted([(kolesar.razmerje(), kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()])[::-1]
         print("{:>40s} | {:} ({})".format('Najboljše razmerje etapne zmage/končane etape', najkolesar_razmerje[0][1], najkolesar_razmerje[0][0]))
         print("{:>40s} | {:} ({})".format(' ', najkolesar_razmerje[1][1], najkolesar_razmerje[1][0]))
         print("{:>40s} | {:} ({})".format(' ', najkolesar_razmerje[2][1], najkolesar_razmerje[2][0]))
+        najkolesar_etape_leto = [(kolesar.etapne_zmage_leto(), kolesar.ime) for kolesar in slovar_kolesarjev_prava_imena.values()]
+        po_vrsti = sorted(najkolesar_etape_leto)[::-1]
+    
+        print("{:>40s} | {:} ({})".format('Kolesar z največ etapnimi zmagami v enem letu',max(najkolesar_etape_leto)[1],max(najkolesar_etape_leto)[0]))
+        for i in range(1,5):
+            print("{:>40s} | {:} ({})".format(' ',po_vrsti[i][1],po_vrsti[i][0]))
+        # najuspesnejse_drzave = slovar_tabela(Drzava.najuspesnejse_drzave_vsa_leta(sl_drzav))
+        # print("{:>40s} | {:} ({})".format('Države z njavečjim številom etapnih zmag',najuspesnejse_drzave[0][0],najuspesnejse_drzave[0][1]))
+        # for i in range(1,5):
+        #     print("{:>40s} | {:} ({})".format(' ',najuspesnejse_drzave[i][0],najuspesnejse_drzave[i][1]))
+        
+        
+        naj_drtazve_gc = Drzava.najuspesnejse_drzave_vsa_leta_gc(sl_drzav)
+        print("{:>40s} | {:} ({})".format('Države z njavečjim številom skupnih zmag',naj_drtazve_gc[0][0],naj_drtazve_gc[0][1]))
+        for i in range(1,5):
+            print("{:>40s} | {:} ({})".format(' ',naj_drtazve_gc[i][0],naj_drtazve_gc[i][1]))
 
-        #največje število etpanih zmag na enem touru kolesar
-        # največje število etapnih zmag na enem touru država
-        #največje število zmaganih tourov dražva
-        #
-        print('Najuspešnjejše države:')
         
         #histogram,fr. kolač
         
@@ -261,3 +287,4 @@ while True:
     elif stevka == 6:
         break
     
+# print(slovar_kolesarjev_prava_imena['Peter Sagan'].etapne_zmage_leto())

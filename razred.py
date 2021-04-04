@@ -50,7 +50,7 @@ class Kolesar:
         self.starti_tour = 0 #kolikorat je začel dirko po Franciji
         self.koncal_tour = 0 #kolikokrat je končal tour(pogleš končni GC)
         self.starti_etap = 0 #kolikokrat je začel etapo
-        self.uvrstitve_etap = []
+        self.uvrstitve_etap = [] #elementi v tabeli so oblike: 
         self.etapne_zmage = 0
         self.gc_uvrstitve = []
         
@@ -64,7 +64,7 @@ class Kolesar:
         return sl
         
     def __str__(self):
-        return "{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n".format("Ime",self.ime, "Datum rojstva", self.d_rojstva, "Država", self.nacionalnost, "Teža", self.teza, "Višina", self.visina) # self.ekipa!!!
+        return "{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}".format("Ime",self.ime, "Datum rojstva", self.d_rojstva, "Država", self.nacionalnost, "Teža", self.teza, "Višina", self.visina) # self.ekipa!!!
     
     def __repr__(self):
         return "Kolesar({})".format(self.link_ime)
@@ -93,7 +93,7 @@ class Kolesar:
         for _,uvrstitev in self.gc_uvrstitve:
             if uvrstitev == 1:
                 vsota += 1
-        return "{:>15} | {:}".format("Skupne zmage", vsota)
+        return vsota
     
     def najbolse_uvrstitve(self):
         '''vrne seznam uvrstitev glede na mesto'''
@@ -103,6 +103,27 @@ class Kolesar:
     def razmerje(self):
         """ vrne razmerje etapnih zmag in koncanih etap"""
         return round(self.etapne_zmage/self.starti_etap, 3)
+    
+    def etapne_zmage_leto(self):
+        '''vrne največje število zmag v enem letu in leto v katerem se je to zgodilo'''
+        sl = {}
+        for uvrstitev in self.najbolse_uvrstitve():
+            if uvrstitev[0] != 1:
+                break
+            else:
+                leto = uvrstitev[1]
+                if leto in sl:
+                    
+                    sl[leto] +=1
+                else:
+                    sl[leto] = 1
+        naj_leto = 0    
+        naj = 0
+        for leto,st in sl.items():
+            if st >= naj:
+                naj = st
+                naj_leto = leto
+        return (naj,naj_leto)
 
             
 
@@ -129,6 +150,13 @@ class Drzava:
                 st_etapnih_z += sum([1 for x in kolesar.leta()[leto] if x[0] == 1])
                 koncali += sum([1 for x in kolesar.gc_uvrstitve if x[0] == leto])
         return mn_k, st_etapnih_z, len(mn_k), koncali
+    def etapne_zmage_skozi_leta(self):
+        tab = []
+        for leto in orodja.vsa_leta('https://www.procyclingstats.com/race/tour-de-france'):
+            tab.append((leto,self.doloceno_leto(leto)[1]))
+        nov = sorted(tab,key=lambda x: x[1])[::-1]
+        return nov
+    
     
     def zmaga_leto(self, leto):
         for kolesar in self.tekmovalci:
@@ -140,7 +168,7 @@ class Drzava:
     def skupne_zmage(self):
         vsota = 0
         for kolesar in self.tekmovalci:
-            vsota += int(kolesar.kolikokrat_zmagal().split()[-1])
+            vsota += int(kolesar.kolikokrat_zmagal())
         return "{:>15} | {:}".format("Skupne zmage", vsota)
     
     @staticmethod
@@ -151,7 +179,16 @@ class Drzava:
             tab.append((slovar[drzava].ime,slovar[drzava].doloceno_leto(leto)[1]))
             nova = sorted(tab,key = lambda x: x[1])[::-1]
         return nova
-    
+    @staticmethod
+    def najuspesnejse_drzave_vsa_leta(slovar):
+        sl = {}
+        for leto in orodja.vsa_leta('https://www.procyclingstats.com/race/tour-de-france'):
+            for drzava,zmage in Drzava.najuspesnejse_drzave(leto,slovar):
+                if drzava not in sl:
+                    sl[drzava] = 0
+                sl[drzava] += zmage
+        return sl
+
     
     def st_startov_tour(self):
         return sum([kolesar.starti_tour for kolesar in self.tekmovalci])
@@ -167,7 +204,20 @@ class Drzava:
     
     def st_tekmovalcev(self):
         return len(self.tekmovalci)
-    
+    def st_zmaganih_tourov(self):
+        vsota = 0
+        for tekmovalec in self.tekmovalci:
+            vsota += tekmovalec.kolikokrat_zmagal()
+        return vsota
+    @staticmethod
+    def najuspesnejse_drzave_vsa_leta_gc(slovar_drazav):
+        '''vrne tabelo drzav, oblike (drzava, število zmaganih tourov)'''
+        tab = []
+        for drzava_ime,drzava in slovar_drazav.items():
+            tab.append((drzava_ime,drzava.st_zmaganih_tourov()))
+            nov = sorted(tab,key=lambda x: x[1])[::-1]
+        return nov
+            
 
     
     

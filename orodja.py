@@ -228,6 +228,8 @@ def prevod_drzav():
     sl_drzav['United States'] = 'Združene države Amerike'
     sl_drzav['Great Britain'] = 'Velika Britanija'
     sl_drzav['Yugoslavia'] = 'Jugoslavija'
+    
+    # sl_drzav['Czech Republic'] = 'Češka'
     nov = dict()
     for drzava in sl_drzav:
         nov[drzava] = sl_drzav[drzava].capitalize()
@@ -251,7 +253,14 @@ def zmagovalci(slovar_imen,slovar_kolesarjev):
         zmagovalci.append((slovar_kolesarjev[zmagovalec],leto))
     return zmagovalci
 
- 
+def slovar_tabela(slovar):
+    
+     '''iz slovarja naredi tabelo in jo uredi po vrednostih'''
+     tab = []
+     for kl,vr in slovar.items():
+         tab.append((kl,vr))
+     nov = sorted(tab,key=lambda x: x[1])[::-1]
+     return nov
 
 
 
