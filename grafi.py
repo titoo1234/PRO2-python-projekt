@@ -55,3 +55,10 @@ def graf_zmage_drzav_test(tabela):
     plt.xlabel("Leto", fontsize = 15)
     plt.show()
     
+# def zemljevid_zmage(tabela):
+#     return 0
+
+    
+
+    
+    

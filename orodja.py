@@ -1,17 +1,18 @@
-#koda za pridobitev imen za nek seštevek
-#treba še mal uredit imena 
-import time
-link = 'https://www.procyclingstats.com/race/tour-de-france'
 import requests
 import re
+link = 'https://www.procyclingstats.com/race/tour-de-france'
 def imena_vseh(link,leto):
-    '''vrne slovar imen kolesarjev glede na posamezne razvrstitve'''
+    '''
+        Iz spletne strani pridobi podatke o določenem letu in te shhrani v slovar.
+        za vsako leto zbere podatke(če je le možno) o skupni razvrstitvi, zeleni majici,
+        beli majici in podatke o rezultatu posamiznih etap
+    '''
     # dat2 = open('dat2.txt','w',encoding='utf-8')
     slovar = dict()
     req = requests.get(link).text
-    
-    tabela = req.split('<table class="basic') #tuki sam spremeni indeks in boš dobu imena za drugo
-                                                 #točkovanje(2=GC,3=ZELENA,4=PIKČASTA) 
+    tabela = req.split('<table class="basic') 
+    # V različnih letih so bile razvrstitve razporejene različno,
+    # zato je treba ločiti primere glede na leto                                    
     if leto in range(1903,1930) or leto == 1931:
         for i in [2]:
             tab = tabela[i]
@@ -19,7 +20,6 @@ def imena_vseh(link,leto):
             imena = [re.sub(r'href="rider/', '', oseba) for oseba in osebe]
             imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
             slovar['GC'] = imena
-
         
     elif leto in [1930,1932]:
         for i in [2]:
@@ -134,12 +134,16 @@ def imena_vseh(link,leto):
             else:
                 slovar['PIK'] = imena
                 
-                
+     #Vsakemu letu doda še zazrvstitev posameznih etap           
     slovar['ETAPE'] = etape(link,leto)
     return slovar
+
 def imena_etapa(link):
-    '''vrne seznam imen kolesarjev glede na posamezne razvrstitve'''
-    
+    '''
+        Iz spletne strani, zbere podatke o rezultatu določene etape.
+        Vrne tabelo, kjer so kolesarji razporejeni glede na uvrstitev,
+        ki so jo dosegli na določeni etapi
+    '''
     req = requests.get(link).text   
     if link == 'https://www.procyclingstats.com/race/tour-de-france/1987/stage-25':#tuki je malo drugače...
         tab = req.split('<table class="basic')[2] 
@@ -148,48 +152,52 @@ def imena_etapa(link):
     osebe = re.findall(r'data-nation=".+">.+class="showIfMobile', tab)
     #osebe, ki niso začele etape, ne dam v tabelo
     imena = [oseba.split('href="rider/')[1] for oseba in osebe if ('DNS' not in oseba and 'DNF' not in oseba and 'OTL' not in oseba)]
-    imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]
-        
-            
-        
+    imena = [uredi_ime(oseba.split('"')[0]) for oseba in imena]    
     return imena
 
 def uredi_ime(niz):
-    '''uredi ime oblike ime-priimek v obliko Ime priimek'''
+    '''
+        uredi ime oblike ime-priimek v obliko Ime priimek
+    '''
     razcep = niz.split('-')
     vrni = ' '.join([ime.capitalize() for ime in razcep])
     return vrni
 
-#nevem če boma to rabla ampak ok :)
-def zapis(tabela):
-    '''izpiše imena iz tabele vsako v svoji vrsti'''
-    st = 1
-    for ime in tabela:
-        print('{:10}. {}'.format(st,ime))
-        st += 1
-def pridobivanje_vseh_let(link, od_leta): #link = https://www.procyclingstats.com/race/tour-de-france
-    '''naredi slovar slovarjev slovar[leto] = slovar_imena_vseh'''
-    
+# def zapis(tabela):
+#     '''izpiše imena iz tabele vsako v svoji vrsti'''
+#     st = 1
+#     for ime in tabela:
+#         print('{:10}. {}'.format(st,ime))
+#         st += 1
+def pridobivanje_vseh_let(link, od_leta): 
+    '''
+        Naredi slovar vseh let, kjer so za vsako leto podatki,
+        ki jih dobimo pri funkciji 'imena_vseh' (gc razvrstitev, etapne uvrstitve...)
+    '''
     slovar = dict()
     for leto in range(od_leta,1990): #vsa_leta(link): #
         slovar[leto] = imena_vseh(link + '/'+str(leto),leto)
     return slovar
 
 def linki_etap(link):
-    '''vrne tabelo linkov do posameznih etap v nekem letu'''
+    '''
+        Za določeno leto, ki je podano v linku, 
+        vrne tabelo vseh linkov, s katerimi lahko dostopamo do posamezne etape
+        v tem letu.
+    '''
     req = requests.get(link).text
     ime_etap = re.findall(r'max-width: 250px; width: 100%;  "><select style="" onChange="window.location.href=this.value;.+">.+</option><option', req)
     ime_etap = ime_etap[0].split(' |')[:-1]
     nov =[etapa.split('>')[-2].replace('<option ','') for etapa in ime_etap]
     nov =['https://www.procyclingstats.com/' + etapa[:-1].replace('value="','')[:-1] for etapa in nov]
-#     nov =['https://www.procyclingstats.com/'+ etapa.split('"')[0] for etapa in nov]
-    
-    return nov#nov[:-1]
-    
-    return nov[:-1]
+    return nov
+
 def etape(link,leto):
-    
-    '''vrne slovar, ključi so katera etapa, vrednosti pa seznam kolesarjev'''
+    '''
+        Naredi slovar, katerega ključi so ime etape in dolžina, vrednost pa tabela
+        kolesarjev, ki so razvrščeni po vrstnem redu, ki so ga dosegli na dani etapi
+        Ta slovar uporabimo kasneje, ko ga dodamo v slovar za določeno leto
+    '''  
     slovar = dict()
     link2='https://www.procyclingstats.com/race/tour-de-france'+ '/' + str(leto)
     
@@ -198,6 +206,7 @@ def etape(link,leto):
         req = requests.get(etapa).text
         #dodal bom še dolžino etape lahko dodama tud drugače
         najdi = re.findall(r'<li><div>Distance:.+', req)[0][31:].split('<')[0]
+        #Če gre za skupinksi kronometer(TTT) to želimo da doda k imenu etape
         if req.count('TTT') > 3:
             slovar[razrez[6:] + '. etapa' + ' (TTT): ' +najdi]= imena_etapa(etapa)
         else:
@@ -205,20 +214,25 @@ def etape(link,leto):
                 slovar['prolog: '+ najdi]= imena_etapa(etapa)
             else:slovar[razrez[6:] +'. etapa: '+ najdi]= imena_etapa(etapa)
     return slovar
+
 def ime_za_link(ime):
-    '''iz Ime Priimek naredi ime-priimek'''
+    '''
+        Iz niza 'Ime Priimek' naredi  niz ime-priimek
+    '''
     nov = ime.lower()
     nov = nov.replace(' ','-')
     return nov
+
 def prevod_drzav():
-    '''naredi ang-slo slovar prevodov držav'''
+    '''
+        Iz podanega Url ja naredi ang-slo slovar držav 
+    '''
     link = 'https://www.101languages.net/slovenian/country-names-slovenian/'
     req = requests.get(link).text
     tab = req.split('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp')
     nova = [i.split('<td>')[-1] for i in tab][:-1]
     sl_drzav = {nova[i]: nova[i + 1] for i in range(0, len(nova), 2)}
-    
-    
+     
     for kl,vr in sl_drzav.items():
         if '&#269' in vr:
             sl_drzav[kl] = vr.replace('&#269;','č')
@@ -228,25 +242,34 @@ def prevod_drzav():
     sl_drzav['United States'] = 'Združene države Amerike'
     sl_drzav['Great Britain'] = 'Velika Britanija'
     sl_drzav['Yugoslavia'] = 'Jugoslavija'
-    
     # sl_drzav['Czech Republic'] = 'Češka'
     nov = dict()
     for drzava in sl_drzav:
-        nov[drzava] = sl_drzav[drzava].capitalize()
-    
+        nov[drzava] = sl_drzav[drzava].capitalize() 
     return nov
+
 def vsa_leta(link):
-    '''vrne vsa leta, kjer se je pojavil tour'''
+    '''
+        Vrne tabelo vseh let, kjer se je izvedel Tour.
+    '''
     req = requests.get(link).text
     najdi = re.findall(r'"><option value="race/tour-de-france/2021.+href="race/tour-de-', req)[0].split('value="race/tour-de-france/')[1:]
     leta = sorted([int(niz[:4]) for niz in najdi][:-22])[:-1]
     return leta
 
 def izpisi_lepo(tab):
-    '''[1, 2018, '19. etapa: 200.5 km'] izpiše na lep način'''
+    '''
+        iz tabele oblike "[1, 2018, '19. etapa: 200.5 km']" naredi niz oblike:
+        "1. mesto; leto: 2018; 19. etapa: 200.5 km"
+    '''
     return str(tab[0]) + '. mesto; leto: ' + str(tab[1]) +'; ' + tab[2]
+
 def zmagovalci(slovar_imen,slovar_kolesarjev):
-    '''vrne tabelo zmagovalcev toura'''
+    '''
+        Iz slovarja "slovar_imen" poišče zmagovalce vseh let
+        in jih s pomočjo slovarja "slovar_kolesarjev"
+        izpiše v tabeli, skupaj z letom v katerem je zmagal
+    '''
     zmagovalci = []
     for leto in slovar_imen:
         zmagovalec = slovar_imen[leto]['GC'][0]
@@ -254,24 +277,27 @@ def zmagovalci(slovar_imen,slovar_kolesarjev):
     return zmagovalci
 
 def slovar_tabela(slovar):
-    
-     '''iz slovarja naredi tabelo in jo uredi po vrednostih'''
-     tab = []
-     for kl,vr in slovar.items():
-         tab.append((kl,vr))
-     nov = sorted(tab,key=lambda x: x[1])[::-1]
-     return nov
+    '''
+        Iz slovarja naredi tabelo parov, razvrščenih po vrednostih
+    '''
+    tab = []
+    for kl,vr in slovar.items():
+        tab.append((kl,vr))
+    nov = sorted(tab,key=lambda x: x[1])[::-1]
+    return nov
 
 
+# KODA ZA PRIDOBIVANJE PODATKOV IN SHRANJEVANJE NA DATOTEKO
+# Podatke sva shranila na datoteko, saj je postopek pridobivanja vseh podatkov dolgotrajen.
 
-# for kl,vr in b.items():
-#     print(vr)
-    
-# c = time.time()
-# a= pridobivanje_vseh_let(link,1985)
-# a[1987]['ETAPE']['25. etapa: 186 km'] = orodja.imena_etapa('https://www.procyclingstats.com/race/tour-de-france/1987/stage-25')
+# Lahko probate zagnati od leta 2015, da ne bo trajalo predolgo
+# slovar_vsa_leta= pridobivanje_vseh_let(link,2015)
+# ============================================================================
+#podatke sva shranila na datoteko 'dat.txt' 
+
+# slovar_vsa_leta= pridobivanje_vseh_let(link,1903)
 # dat = open('dat.txt','w',encoding='utf-8')
-# print(a,file = dat)
+# print(slovar_vsa_leta,file = dat)
 # dat.close()
-# print('konec')
-# print(abs(c- time.time()))
+
+#V glavnem programu poleg te datoteke odpre še dve datoteki, ki jih usvari v branje_txt.py
