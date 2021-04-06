@@ -3,7 +3,6 @@ import branje_txt
 from razred import *
 import difflib
 from orodja import *
-# import grafi
 import pickle
 from grafi import *
 link = 'https://www.procyclingstats.com/race/tour-de-france'
@@ -15,12 +14,16 @@ datoteka = 'vse.txt'
 #NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
 
 
+#KODA ZA PRIDOBIVANJE PODATKOV 
 slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 # slovar_objektov_brez = branje_txt.ustvarjanje_objektov(slovar_imen)
 # slovar_objektov =  branje_txt.zamenjava_kljucev(slovar_objektov_brez)
 
   
-# #Step 1
+# Korak 1
+#Slovar slovar_objektov_brez in slovar_objektov sva sharnila na dve datoteki,
+#ker je časovno zelo dolgo trajalo, da je naredilo vse objekte.
+
 # with open('slovar_objektov_brez_datoteka', 'wb') as datoteka:
 #     pickle.dump(slovar_objektov_ne_prava_imena, datoteka)
 
@@ -30,29 +33,33 @@ slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 
 
 
-# #step 2
+# Korak 2
+#Iz datotek preberemo slovar vseh objektov. Slovarja sta oblike: 'Ime Priimek': Kolesar(Ime Priimek)
 with open('slovar_objektov_ne_prava_imena', 'rb') as datoteka:
     slovar_kolesarjev_brez_pravih_imen = pickle.load(datoteka)
  
 with open('slovar_objektov_datoteka', 'rb') as datoteka:
     slovar_kolesarjev_prava_imena = pickle.load(datoteka)
     
+# Naredimo še slovar_držav, t.j slovar, kjer so ključi ime države,
+# vrednosti pa so objekti tipa Država 
 sl_drzav = dict()
-
 for kolesar in slovar_kolesarjev_brez_pravih_imen:
     d = slovar_kolesarjev_brez_pravih_imen[kolesar].nacionalnost
-    if d not in sl_drzav:
+    if d not in sl_drzav:#še ni bilo te države, zato jo naredimo
         trenutna_d = Drzava(d)
         sl_drzav[d] = trenutna_d
         sl_drzav[d].dodaj_tekmovalca(slovar_kolesarjev_brez_pravih_imen[kolesar])
     else:
         sl_drzav[d].dodaj_tekmovalca(slovar_kolesarjev_brez_pravih_imen[kolesar])
-        
-        
 
-#print(mn_drzav["Slovenija"].zmaga(2020))
 kolesarji = list(slovar_kolesarjev_prava_imena.keys())
-        
+   
+
+#KODA ZA UPORABNIKA
+#==============================================================================
+
+     
 print("Pozdravljeni v analizi Dirke po Franciji!")
 while True:
     print("")
@@ -78,7 +85,6 @@ while True:
         print("Vnesi ime željenega kolesarja oblike Ime Priimek!")
         while True:
             kolesar = input("Kolesar: ")
-            #print(difflib.get_close_matches(a, kolesarji))
             if kolesar in slovar_kolesarjev_prava_imena:
                 oseba = slovar_kolesarjev_prava_imena[kolesar]
                 print(oseba)
@@ -111,7 +117,7 @@ while True:
                 leto = int(input("Vnesi ime željenega leta: "))
                 if leto not in vsa_leta(link):
                     print("Neveljavno leto, poskusite znova!")
-                    #leto = int(input("Vnesi ime željenega leta: "))
+                    #izpiše katera leta?
             except:
                 print("Neveljaven vnos, poskusite znova!")
                 continue
@@ -123,7 +129,7 @@ while True:
                     break
                 # grafi.graf_zmage_drzav(Drzava.najuspesnejse_drzave(leto,sl_drzav))
                 print("")
-                # print("{:>10s} | '{:s}'".format("Genre", movie['Genre']))
+                
                 print("{:>50s} | {:s}".format("Število tekmovalcev na startu dirke: ", str(len(slovar_imen[leto]["ETAPE"][prva_etapa]))))
                 print("{:>50s} | {:s}".format("Število tekmovalcev na koncu dirke ", str(len(slovar_imen[leto]["GC"]))))
                 print("{:>50s} | {:s}".format("Dolžina dirke " , str(slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["GC"][0]].dolzina_toura(leto))))
@@ -147,6 +153,7 @@ while True:
                         print("{:>50s} | {:s}".format(' ' , Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][0] +' ('+ str(Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][1]) + ")"))
                     else:
                         break
+                #naredi graf
                 kolac_drzave_zmage(Drzava.najuspesnejse_drzave(leto,sl_drzav))
                 
                 
@@ -160,7 +167,7 @@ while True:
                     print('Izberite etapo, katere rezultate bi si želeli pogledati.')
                     while True:
                 
-                        vnos = input('Vnesite številko: ')
+                        vnos = input('Vnesite število: ')
                         
                         if vnos not in [str(i) for i in range(1,(len(slovar_imen[leto]['ETAPE'])+1))]:
                             print('Neveljaven vnos ali leto. Izbirati morate med številom 1 in ' + str(len(slovar_imen[leto]['ETAPE'])))
@@ -179,7 +186,7 @@ while True:
                                 break
                     
                 print("")
-                #frekvenčni kolač
+                
                 vnos = input("Želite nadaljevati s kakšnim drugim letom? (da/ne) ")
                 if vnos != "da":
                     break
@@ -240,6 +247,8 @@ while True:
             for etapa in  slovar_imen[leto]['ETAPE']:
                 etape.append(etapa + ' ' + str(leto))
         najdalse = sorted(etape, key=lambda x: float(x.split()[-3]))
+        print("{:>40s} | {:}".format('Število kolesarjev, ki je nastopilo v vseh letih', len(slovar_kolesarjev_brez_pravih_imen)) )
+        
         print("{:>40s} | {:}".format('Število vseh etap', len(najdalse)) )
         print("{:>40s} | {:s}".format('Najdalša etapa',najdalse[-1]))
         print("{:>40s} | {:s}".format('Najkrajša etapa',najdalse[1])) #ena etapa je bila odpovedana
@@ -275,13 +284,14 @@ while True:
         print("{:>40s} | {:} ({})".format('Države z njavečjim številom skupnih zmag',naj_drtazve_gc[0][0],naj_drtazve_gc[0][1]))
         for i in range(1,5):
             print("{:>40s} | {:} ({})".format(' ',naj_drtazve_gc[i][0],naj_drtazve_gc[i][1]))
-
+        kolac_drzave_zmage(naj_drtazve_gc)
         
         #histogram,fr. kolač
         
         
     
     elif stevka == 5:
+        
         pass
     
     elif stevka == 6:
