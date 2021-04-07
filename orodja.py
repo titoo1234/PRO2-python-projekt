@@ -145,7 +145,7 @@ def imena_etapa(link):
         ki so jo dosegli na določeni etapi
     '''
     req = requests.get(link).text   
-    if link == 'https://www.procyclingstats.com/race/tour-de-france/1987/stage-25':#tuki je malo drugače...
+    if link == 'https://www.procyclingstats.com/race/tour-de-france/1987/stage-25/result/result':#tuki je malo drugače...
         tab = req.split('<table class="basic')[2] 
     else:
         tab = req.split('<table class="basic')[1]                                                    
@@ -175,7 +175,7 @@ def pridobivanje_vseh_let(link, od_leta):
         ki jih dobimo pri funkciji 'imena_vseh' (gc razvrstitev, etapne uvrstitve...)
     '''
     slovar = dict()
-    for leto in range(od_leta,1990): #vsa_leta(link): #
+    for leto in vsa_leta(link): #vsa_leta(link): #
         slovar[leto] = imena_vseh(link + '/'+str(leto),leto)
     return slovar
 
@@ -291,7 +291,7 @@ def slovar_tabela(slovar):
 # Podatke sva shranila na datoteko, saj je postopek pridobivanja vseh podatkov dolgotrajen.
 
 # Lahko probate zagnati od leta 2015, da ne bo trajalo predolgo
-# slovar_vsa_leta= pridobivanje_vseh_let(link,2015)
+# slovar_leto= pridobivanje_vseh_let(link,2015)
 # ============================================================================
 #podatke sva shranila na datoteko 'dat.txt' 
 
