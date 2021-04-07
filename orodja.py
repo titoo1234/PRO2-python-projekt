@@ -39,7 +39,7 @@ def imena_vseh(link,leto):
                 if i == 2:
                     slovar['GC'] = imena
                 elif i == 3:
-                    slovar['ZeLENA'] = imena
+                    slovar['ZELENA'] = imena
                 else:
                     slovar['PIK'] = imena
         else: 

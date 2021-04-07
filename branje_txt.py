@@ -43,7 +43,10 @@ def ustvarjanje_objektov(slovar):
             pozicija = 1
             for kolesar in rezultati:
                 if kolesar not in mn_kolesarjev:#še ni prišel do kolesarja, zato naredi objekt
-                    slovar_kolesarjev[kolesar] = razred.Kolesar(orodja.ime_za_link(kolesar))
+                    try:
+                        slovar_kolesarjev[kolesar] = razred.Kolesar(orodja.ime_za_link(kolesar))
+                    except:
+                        print(kolesar)
                     mn_kolesarjev.add(kolesar)
                 oseba = slovar_kolesarjev[kolesar]
                 

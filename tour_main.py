@@ -18,15 +18,15 @@ datoteka = 'vse.txt'
 slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 # slovar_objektov_brez = branje_txt.ustvarjanje_objektov(slovar_imen)
 # slovar_objektov =  branje_txt.zamenjava_kljucev(slovar_objektov_brez)
-
-  
+# 
+#   
 # # Korak 1
 # #Slovar slovar_objektov_brez in slovar_objektov sva sharnila na dve datoteki,
 # #ker je časovno zelo dolgo trajalo, da je naredilo vse objekte.
-
+# 
 # with open('slovar_objektov_brez_datoteka2', 'wb') as datoteka:
 #     pickle.dump(slovar_objektov_ne_prava_imena, datoteka)
-
+# 
 # with open('slovar_objektov_datoteka2', 'wb') as datoteka:
 #     pickle.dump(slovar_objektov, datoteka)
                     

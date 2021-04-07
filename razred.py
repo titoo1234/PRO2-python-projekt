@@ -22,6 +22,7 @@ class Kolesar:
             datum_rojstva = dan + ". " + prevod_mesev[mesec]+' ' + leto +starost
             if '<br/><span><b>P' in datum_rojstva:
                 datum_rojstva = datum_rojstva.replace('<br/><span><b>P','')
+            self.d_rojstva = datum_rojstva
             
         except:
             self.d_rojstva = 'neznano'
@@ -44,9 +45,9 @@ class Kolesar:
         
         self.ime = polno_ime
         #v nekaterih primerih ni bilo datuma
-        if datum_rojstva == []:
-                datum_rojstva = 'neznano'
-        self.d_rojstva = datum_rojstva
+        if self.d_rojstva == []:
+            self.d_rojstva = 'neznano'
+        #self.d_rojstva = datum_rojstva
         self.nacionalnost = drzava
         self.link_ime = ime
         self.starti_tour = 0 #kolikorat je začel dirko po Franciji
