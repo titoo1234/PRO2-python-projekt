@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import colors
+import random
+b = [('Francija', 715), ('Belgija', 480), ('Italija', 266), ('Nizozemska', 170), ('Španija', 127), ('Nemčija', 92), ('Velika britanija', 72), ('Luksemburg', 68), ('Švica', 58), ('Združene države amerike', 39), ('Avstralija', 38), ('Kolumbija', 24), ('Danska', 22), ('Norveška', 20), ('Portugalska', 14), ('Irska', 14), ('Slovaška', 12), ('Rusija', 10), ('Uzbekistan', 9), ('Poljska', 7), ('Kazahstan', 7), ('Slovenija', 6), ('Avstrija', 4), ('Češka', 4), ('Ukrajina', 4), ('Estonija', 4), ('Kanada', 2), ('Mehika', 2), ('Latvija', 2), ('Južna afrika', 2), ('Švedska', 1), ('Brazilija', 1), ('Litva', 1), ('Alžirija', 0), ('Tunizija', 0), ('Monako', 0), ('Nova zelandija', 0), ('Jugoslavija', 0), ('Romunija', 0), ('Maroko', 0), ('Lihtenštajn', 0), ('Venezuela', 0), ('Japonska', 0), ('Finska', 0), ('Moldavija', 0), ('Hrvaška', 0), ('Belorusija', 0), ('Kostarika', 0), ('Argentina', 0), ('Kitajska', 0), ('Eritreja', 0), ('Etiopija', 0), ('Ekvador', 0), ('Izrael', 0)]
 
 
 
@@ -55,10 +58,22 @@ def graf_zmage_drzav_test(tabela):
     plt.xlabel("Leto", fontsize = 15)
     plt.show()
     
-# def zemljevid_zmage(tabela):
-#     return 0
-
+    
+def vse_drzave_zmage(slovar):
+    drzave=[]
+    zmage = []
+    for drzava in slovar:
+        dr,zmaga= drzava
+        #v histogram dam države z 5 ali več zmagami
+        if zmaga > 4:
+            drzave.append(dr)
+            zmage.append(zmaga)
+    fig, axes = plt.subplots(figsize=(7,5), dpi=100)
     
 
     
-    
+    plt.bar(drzave, zmage)
+    plt.show()
+
+vse_drzave_zmage(b)  
+

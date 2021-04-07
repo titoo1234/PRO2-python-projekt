@@ -6,7 +6,7 @@ from orodja import *
 import pickle
 from grafi import *
 link = 'https://www.procyclingstats.com/race/tour-de-france'
-datoteka = 'vse.txt'
+datoteka = 'dat.txt'
 
 #NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
 #NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
@@ -22,11 +22,11 @@ slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 #   
 # # Korak 1
 # #Slovar slovar_objektov_brez in slovar_objektov sva sharnila na dve datoteki,
-# #ker je časovno zelo dolgo trajalo, da je naredilo vse objekte.
-# 
+#ker je časovno zelo dolgo trajalo, da je naredilo vse objekte.
+
 # with open('slovar_objektov_brez_datoteka2', 'wb') as datoteka:
 #     pickle.dump(slovar_objektov_ne_prava_imena, datoteka)
-# 
+
 # with open('slovar_objektov_datoteka2', 'wb') as datoteka:
 #     pickle.dump(slovar_objektov, datoteka)
                     
@@ -35,10 +35,10 @@ slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 
 # Korak 2
 #Iz datotek preberemo slovar vseh objektov. Slovarja sta oblike: 'Ime Priimek': Kolesar(Ime Priimek)
-with open('slovar_objektov_ne_prava_imena', 'rb') as datoteka:
+with open('slovar_objektov_brez_datoteka2', 'rb') as datoteka:
     slovar_kolesarjev_brez_pravih_imen = pickle.load(datoteka)
  
-with open('slovar_objektov_datoteka', 'rb') as datoteka:
+with open('slovar_objektov_datoteka2', 'rb') as datoteka:
     slovar_kolesarjev_prava_imena = pickle.load(datoteka)
     
 # Naredimo še slovar_držav, t.j slovar, kjer so ključi ime države,
@@ -198,6 +198,7 @@ while True:
             try:
                 drzava = drzava[0].capitalize() + drzava[1:]
             except:
+                
                 print("Napačen vnos, poskusite znova!")
                 continue
             if drzava in sl_drzav:
@@ -208,16 +209,23 @@ while True:
 
                 print("{:>15} | {:} ({})".format('Najuspešnejši kolesarji glede na etapne zmage',tab_kolesarjev[0][0],tab_kolesarjev[0][1]))
                 for i in range(1,5):
-                    if tab_kolesarjev[i][1] != 0:
-                        print("{:>15} | {:} ({})".format(' ',tab_kolesarjev[i][0],tab_kolesarjev[i][1]))
+                    try:#lahko se zgodi, da je maanj kot 5 kolesarjev
+                        if tab_kolesarjev[i][1] != 0:
+                            print("{:>15} | {:} ({})".format(' ',tab_kolesarjev[i][0],tab_kolesarjev[i][1]))
+                    except:
+                        continue
                 print(dr.st_starti_etap())
                 print(dr.st_etapnih_zmag())
                 print(dr.skupne_zmage())
                 zmage_skozi_leta = dr.etapne_zmage_skozi_leta()
                 print("{:>15} | {:} ({})".format('Najuspešnejša leta',zmage_skozi_leta[0][0],zmage_skozi_leta[0][1]))
                 for i in range(1,5):
-                    if zmage_skozi_leta[i][1] != 0:
-                        print("{:>15} | {:} ({})".format(' ',zmage_skozi_leta[i][0],zmage_skozi_leta[i][1]))
+                    try:
+                        if zmage_skozi_leta[i][1] != 0:
+                            print("{:>15} | {:} ({})".format(' ',zmage_skozi_leta[i][0],zmage_skozi_leta[i][1]))
+                
+                    except:
+                        continue
                 #linijski diagram
                 tab = []
                 for leto in vsa_leta(link):
@@ -274,10 +282,10 @@ while True:
         print("{:>40s} | {:} ({})".format('Kolesar z največ etapnimi zmagami v enem letu',max(najkolesar_etape_leto)[1],max(najkolesar_etape_leto)[0]))
         for i in range(1,5):
             print("{:>40s} | {:} ({})".format(' ',po_vrsti[i][1],po_vrsti[i][0]))
-        # najuspesnejse_drzave = slovar_tabela(Drzava.najuspesnejse_drzave_vsa_leta(sl_drzav))
-        # print("{:>40s} | {:} ({})".format('Države z njavečjim številom etapnih zmag',najuspesnejse_drzave[0][0],najuspesnejse_drzave[0][1]))
-        # for i in range(1,5):
-        #     print("{:>40s} | {:} ({})".format(' ',najuspesnejse_drzave[i][0],najuspesnejse_drzave[i][1]))
+        najuspesnejse_drzave = slovar_tabela(Drzava.najuspesnejse_drzave_vsa_leta(sl_drzav))
+        print("{:>40s} | {:} ({})".format('Države z njavečjim številom etapnih zmag',najuspesnejse_drzave[0][0],najuspesnejse_drzave[0][1]))
+        for i in range(1,5):
+            print("{:>40s} | {:} ({})".format(' ',najuspesnejse_drzave[i][0],najuspesnejse_drzave[i][1]))
         
         
         naj_drtazve_gc = Drzava.najuspesnejse_drzave_vsa_leta_gc(sl_drzav)
@@ -296,5 +304,7 @@ while True:
     
     elif stevka == 6:
         break
+    else:
+        print('Vnesiti morate število med 1 in 6!')
     
 # print(slovar_kolesarjev_prava_imena['Peter Sagan'].etapne_zmage_leto())

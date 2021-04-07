@@ -1,5 +1,6 @@
 import requests
 import re
+from pycountry_convert import country_name_to_country_alpha3
 link = 'https://www.procyclingstats.com/race/tour-de-france'
 def imena_vseh(link,leto):
     '''
@@ -275,7 +276,13 @@ def zmagovalci(slovar_imen,slovar_kolesarjev):
         zmagovalec = slovar_imen[leto]['GC'][0]
         zmagovalci.append((slovar_kolesarjev[zmagovalec],leto))
     return zmagovalci
-
+def slovar_kratic(tabela):
+    '''
+        Iz tabele držav, naredi slovar, kjer so klluči države,
+        vrednosti pa oznaka države (3 velike črke)
+    '''
+    return None
+    
 def slovar_tabela(slovar):
     '''
         Iz slovarja naredi tabelo parov, razvrščenih po vrednostih
@@ -285,6 +292,23 @@ def slovar_tabela(slovar):
         tab.append((kl,vr))
     nov = sorted(tab,key=lambda x: x[1])[::-1]
     return nov
+
+def kratice_drzav():
+    '''
+        naredi slovar mednarodnih kratic držav(a3);
+        ključi so slovensko zapisane države
+    '''
+    sl_kratic = {}
+    for ang,slo in prevod_drzav().items():
+        
+        try:
+            cn_a3_code =  country_name_to_country_alpha3(ang)
+        except:
+            cn_a3_code = 'Unknown' 
+        sl_kratic[slo] = cn_a3_code
+    #dodamo še Jugoslavijo, ki je ni modulu 'pycountry_convert'
+    sl_kratic['Jugoslavija'] = 'YU'
+    return sl_kratic
 
 
 # KODA ZA PRIDOBIVANJE PODATKOV IN SHRANJEVANJE NA DATOTEKO
