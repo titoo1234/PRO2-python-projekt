@@ -87,6 +87,7 @@ while True:
             kolesar = input("Kolesar: ")
             if kolesar in slovar_kolesarjev_prava_imena:
                 oseba = slovar_kolesarjev_prava_imena[kolesar]
+                
                 print(oseba)
                 print(oseba.dosezki())
                 print("{:>40s} | {}".format('Razmerje:  Število zmag / Start etap', oseba.razmerje()))
@@ -98,6 +99,8 @@ while True:
                         print('{:>40s}  {}'.format(' ' , orodja.izpisi_lepo(oseba.najbolse_uvrstitve()[i])))
                     except:
                         pass
+                    
+                graf_kolesar(oseba)
                 #relativna razvrstitev glede na število vseh tekmovalcev?
                 #Posebni dosežki?
                 

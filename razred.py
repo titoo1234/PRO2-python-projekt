@@ -149,6 +149,23 @@ class Kolesar:
                 naj = st
                 naj_leto = leto
         return (naj,naj_leto)
+    
+    
+    
+    def st_etapne_zmage_leto(self):
+        sl = {}
+        for uvrstitev in self.najbolse_uvrstitve():
+            #ko pride do mesta, ki ni več prvo, lahko konča
+            if uvrstitev[0] != 1:
+                break
+            else:
+                leto = uvrstitev[1]
+                if leto in sl:
+                    
+                    sl[leto] +=1
+                else:
+                    sl[leto] = 1
+        return sl
 
             
 
