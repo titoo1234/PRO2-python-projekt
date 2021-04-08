@@ -75,5 +75,5 @@ def vse_drzave_zmage(slovar):
     plt.bar(drzave, zmage)
     plt.show()
 
-vse_drzave_zmage(b)  
+# vse_drzave_zmage(b)  
 

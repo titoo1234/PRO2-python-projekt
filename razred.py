@@ -71,7 +71,7 @@ class Kolesar:
         return sl
         
     def __str__(self):
-        return "{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}\n{:>15} | {:s}".format("Ime",self.ime, "Datum rojstva", self.d_rojstva, "Država", self.nacionalnost, "Teža", self.teza, "Višina", self.visina) # self.ekipa!!!
+        return "{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}".format("Ime",self.ime, "Datum rojstva", self.d_rojstva, "Država", self.nacionalnost, "Teža", self.teza, "Višina", self.visina) # self.ekipa!!!
     
     def __repr__(self):
         return "Kolesar({})".format(self.link_ime)
@@ -80,7 +80,7 @@ class Kolesar:
         '''
             izpiše statistične vrenosti kolesarja, kot so zmage, starti..
         '''
-        return '{:>15} | {:}\n{:>15} | {:}\n{:>15} | {:}\n{:>15} | {:}'.format("Start dirke",self.starti_tour,"Končane dirke",self.koncal_tour,"Start etap",self.starti_etap,"Etapne zmage",self.etapne_zmage) #\nUvrstitve:{} self.uvrstitve_etap
+        return '{:>40s} | {:}\n{:>40s} | {:}\n{:>40s} | {:}\n{:>40s} | {:}'.format("Start dirke",self.starti_tour,"Končane dirke",self.koncal_tour,"Start etap",self.starti_etap,"Etapne zmage",self.etapne_zmage) #\nUvrstitve:{} self.uvrstitve_etap
                 
     def skupna_dolzina(self):
         '''
@@ -164,7 +164,7 @@ class Drzava:
         return "Drzava({})".format(self.ime)
     
     def __str__(self):
-        return "{:>15} | {:}".format("Država", self.ime)
+        return "{:>50s} | {:}".format("Država", self.ime)
     
     
     def doloceno_leto(self, leto):
@@ -210,7 +210,7 @@ class Drzava:
         vsota = 0
         for kolesar in self.tekmovalci:
             vsota += int(kolesar.kolikokrat_zmagal())
-        return "{:>15} | {:}".format("Skupne zmage", vsota)
+        return "{:>50s} | {:}".format("Skupne zmage", vsota)
     
     @staticmethod
     def najuspesnejse_drzave(leto,slovar):
@@ -249,13 +249,13 @@ class Drzava:
         '''
             Izpiše vsoto vseh startov na Dirki(vse etape) od vseh kolesarjev iz dane države
         '''
-        return "{:>15} | {:}".format("Start etap", sum([kolesar.starti_etap for kolesar in self.tekmovalci]))
+        return "{:>50s} | {:}".format("Start etap", sum([kolesar.starti_etap for kolesar in self.tekmovalci]))
     
     def st_etapnih_zmag(self):
         '''
             Izpiše vsoto vseh zmag, ki so jo dosegli kolesarji iz države
         '''
-        return "{:>15} | {:}".format("Etapne zmage", sum([kolesar.etapne_zmage for kolesar in self.tekmovalci]))
+        return "{:>50s} | {:}".format("Etapne zmage", sum([kolesar.etapne_zmage for kolesar in self.tekmovalci]))
     
     def st_tekmovalcev(self):
         return len(self.tekmovalci)
