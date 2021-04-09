@@ -297,13 +297,3 @@ class Drzava:
             tab.append((drzava_ime,drzava.st_zmaganih_tourov()))
             nov = sorted(tab,key=lambda x: x[1])[::-1]
         return nov
-            
-
-    
-    
-
-# ime = "primoz-roglic"
-# kol = Kolesar(ime)
-# print(kol)
-# print(kol.dosežki())
-

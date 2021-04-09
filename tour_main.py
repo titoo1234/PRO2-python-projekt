@@ -8,12 +8,6 @@ from grafi import *
 link = 'https://www.procyclingstats.com/race/tour-de-france'
 datoteka = 'dat.txt'
 
-#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
-#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
-#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
-#NA NOVO SE MORAJO NAREDITI OBJEKTI!!!!!!
-
-
 #KODA ZA PRIDOBIVANJE PODATKOV 
 slovar_imen = branje_txt.branje_ustvarjanje(datoteka)
 # slovar_objektov_brez = branje_txt.ustvarjanje_objektov(slovar_imen)
@@ -68,8 +62,7 @@ while True:
     print("2.) Določeno leto")
     print("3.) Določena država")
     print("4.) Splošni podatki")
-    print("5.) Informacije")
-    print("6.) Končaj")
+    print("5.) Končaj")
 
 
 
@@ -78,7 +71,7 @@ while True:
             stevka = int(input())
             break
         except:
-            print('Napačen vnos. Vnesti morate število med 1 in 6.')
+            print('Napačen vnos. Vnesti morate število med 1 in 5.')
             
         
     if stevka == 1:
@@ -157,15 +150,17 @@ while True:
                     print("{:>50s} | {:s}".format("Najboljši mladi kolesar (dobitnik bele majice)" , slovar_kolesarjev_brez_pravih_imen[slovar_imen[leto]["BELA"][0]].ime))
                 except:
                     print("{:>50s} | {:s}".format("Najboljši mladi kolesar (dobitnik bele majice)",'Bele majice to leto niso podeljevali'))
+                    
+                tabela = Drzava.najuspesnejse_drzave(leto,sl_drzav)
                         
-                print("{:>50s} | {:s}".format('Država z največ etapnimi zmagami ' , Drzava.najuspesnejse_drzave(leto,sl_drzav)[0][0] +' ('+ str(Drzava.najuspesnejse_drzave(leto,sl_drzav)[0][1]) + ")"))
+                print("{:>50s} | {:s}".format('Država z največ etapnimi zmagami ' , tabela[0][0] +' ('+ str(tabela[0][1]) + ")"))
                 for i in range(1, 100):
-                    if Drzava.najuspesnejse_drzave(leto,sl_drzav)[0][1] == Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][1]:
-                        print("{:>50s} | {:s}".format(' ' , Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][0] +' ('+ str(Drzava.najuspesnejse_drzave(leto,sl_drzav)[i][1]) + ")"))
+                    if tabela[0][1] == tabela[i][1]:
+                        print("{:>50s} | {:s}".format(' ' , tabela[i][0] +' ('+ str(tabela[i][1]) + ")"))
                     else:
                         break
                 #naredi graf
-                kolac_drzave_zmage(Drzava.najuspesnejse_drzave(leto,sl_drzav))
+                kolac_drzave_zmage(tabela)
                 
                 
                 vnos = input('Želite pogledati še rezultate posamičnih etap? da/ne ')
@@ -214,6 +209,11 @@ while True:
                 continue
             if drzava in sl_drzav:
                 dr = sl_drzav[drzava]
+                zmage_skozi_leta = dr.etapne_zmage_skozi_leta()
+                tab = []
+                for leto in vsa_leta(link):
+                    a, b = sl_drzav[drzava].doloceno_leto(leto)[1:3]
+                    tab.append((leto, a, b))
                 print(dr)
                 print("{:>50s} | {:}".format("Število tekmovalcev skozi leta" , str(sl_drzav[drzava].st_tekmovalcev())))
                 tab_kolesarjev = sorted([(kolesar.ime,kolesar.etapne_zmage) for kolesar in dr.tekmovalci],key = lambda x: x[1])[::-1]
@@ -228,8 +228,11 @@ while True:
                 print(dr.st_starti_etap())
                 print(dr.st_etapnih_zmag())
                 print(dr.skupne_zmage())
-                zmage_skozi_leta = dr.etapne_zmage_skozi_leta()
-                print("{:>50s} | {:} ({})".format('Najuspešnejša leta',zmage_skozi_leta[0][0],zmage_skozi_leta[0][1]))
+                
+                if zmage_skozi_leta[0][1] == 0:
+                    print("{:>50s} | {:}".format('Najuspešnejša leta',"-"))
+                else:
+                    print("{:>50s} | {:} ({})".format('Najuspešnejša leta',zmage_skozi_leta[0][0],zmage_skozi_leta[0][1]))
                 for i in range(1,5):
                     try:
                         if zmage_skozi_leta[i][1] != 0:
@@ -238,10 +241,7 @@ while True:
                     except:
                         continue
                 #linijski diagram
-                tab = []
-                for leto in vsa_leta(link):
-                    a, b = sl_drzav[drzava].doloceno_leto(leto)[1:3]
-                    tab.append((leto, a, b))
+                
                 graf_zmage_drzav_test(tab)
                 print("")
                 vnos = input("Želite nadaljevati? (da/ne) ")
@@ -299,23 +299,19 @@ while True:
             print("{:>50s} | {:} ({})".format(' ',najuspesnejse_drzave[i][0],najuspesnejse_drzave[i][1]))
         
         
-        naj_drtazve_gc = Drzava.najuspesnejse_drzave_vsa_leta_gc(sl_drzav)
-        print("{:>50s} | {:} ({})".format('Države z njavečjim številom skupnih zmag',naj_drtazve_gc[0][0],naj_drtazve_gc[0][1]))
+        naj_drzave_gc = Drzava.najuspesnejse_drzave_vsa_leta_gc(sl_drzav)
+        print("{:>50s} | {:} ({})".format('Države z njavečjim številom skupnih zmag',naj_drzave_gc[0][0],naj_drzave_gc[0][1]))
         for i in range(1,5):
-            print("{:>50s} | {:} ({})".format(' ',naj_drtazve_gc[i][0],naj_drtazve_gc[i][1]))
-        kolac_drzave_zmage(naj_drtazve_gc)
+            print("{:>50s} | {:} ({})".format(' ',naj_drzave_gc[i][0],naj_drzave_gc[i][1]))
+        kolac_drzave_zmage_skupno(naj_drzave_gc)
         
         #histogram,fr. kolač
-        
-        
     
     elif stevka == 5:
-        
-        pass
-    
-    elif stevka == 6:
+        print("")
+        print("Hvala!")
         break
     else:
-        print('Vnesiti morate število med 1 in 6!')
+        print('Vnesiti morate število med 1 in 5!')
     
 # print(slovar_kolesarjev_prava_imena['Peter Sagan'].etapne_zmage_leto())

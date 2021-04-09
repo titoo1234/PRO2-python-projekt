@@ -35,7 +35,7 @@ def graf_zmage_drzav(tabela):
         
 #graf_zmage_drzav(a)
 # print('asd')
-def kolac_drzave_zmage(tabela):
+def kolac_drzave_zmage_skupno(tabela):
     kratice = kratice_drzav()
     sl = dict()
     sl["Ostalo"] = 0
@@ -50,6 +50,17 @@ def kolac_drzave_zmage(tabela):
     ax1.pie(list(sl.values()), labels=list(sl.keys()), autopct=lambda p : '{:.1f}% ({:,.0f})'.format(p,p * sum(sl.values())/100),shadow=True, startangle=90)
     plt.show()
     
+    
+def kolac_drzave_zmage(tabela):
+    kratice = kratice_drzav()
+    sl = dict()
+    for drzava in tabela:
+        if drzava[1] != 0:
+            sl[kratice[drzava[0]]] = drzava[1]
+    fig1, ax1 = plt.subplots()
+    plt.title('Razmerje skupnih zmag po državah')
+    ax1.pie(list(sl.values()), labels=list(sl.keys()), autopct=lambda p : '{:.1f}% ({:,.0f})'.format(p,p * sum(sl.values())/100),shadow=True, startangle=90)
+    plt.show()
 #kolac_drzave_zmage(a)
     
 def graf_zmage_drzav_test(tabela):
@@ -85,7 +96,7 @@ def vse_drzave_zmage(slovar):
 def graf_kolesar(kolesar):
     slovar = kolesar.st_etapne_zmage_leto()
     # dodam 0 za tista vmesna leta ko ni nastopil npr nastopil 2017, 2018 in 2020, dodam 0 za 2019 in še kako leto prej
-    for leto in range(min(list(slovar.keys())) - 5, 2021):
+    for leto in range(min(list(slovar.keys())) - 5, min(max(list(slovar.keys()))+5,2021)):
         if leto not in slovar:
             slovar[leto] = 0
             
@@ -93,11 +104,12 @@ def graf_kolesar(kolesar):
     for kljuc in sorted(slovar):
         pravi_sl[kljuc] = slovar[kljuc]
         
-    plt.plot(list(pravi_sl.keys()), list(pravi_sl.values()), marker = 'o', markersize = 3, c = [0,0,1], label="Število etapnih zmag")
+    plt.plot(list(pravi_sl.keys()), list(pravi_sl.values()), marker = 'o', markersize = 5, c = [0,0,1], label="Število etapnih zmag")
     plt.legend(loc = 'upper left', fontsize = 13)
     plt.title("Etapne in skupne zmage skozi leta", fontsize = 21, fontweight = 'bold')
     plt.ylabel("Število zmag", fontsize = 18)
     plt.xlabel("Leto", fontsize = 15)
+    plt.ylim(0, 10)
     plt.show()
     
     
