@@ -10,3 +10,6 @@ Prvi teden: pridobivanje in urejanje podatkov <br/>
 Drugi teden: sestavljanje različnih funkcij in razredov <br/>
 Tretji teden: predstavitev podatkov <br/>
 Četrti teden: testiranje in končni popravki <br/>
+
+## Za uporabnika
+Za pravilno delovanje programa si je potrebno naložiti vse datoteke.
