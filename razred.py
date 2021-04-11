@@ -6,7 +6,7 @@ import orodja
 
 link = "https://www.procyclingstats.com/rider"
 prevod_drzav = orodja.prevod_drzav()
-prevod_mesev = {'January': 'janunar', 'February': 'februar', 'March': 'marec','April':'april', 'May':'maj', 'June':'junij','July':'julij', 'August' :'avgust', 'September':'september', 'October':'oktober', 'November':'november', 'December':'december'}
+prevod_mesecev = {'January': 'januar', 'February': 'februar', 'March': 'marec','April':'april', 'May':'maj', 'June':'junij','July':'julij', 'August' :'avgust', 'September':'september', 'October':'oktober', 'November':'november', 'December':'december'}
 class Kolesar:
     def __init__(self, ime):
         #pridobivanje podatkov iz spleta
@@ -19,7 +19,7 @@ class Kolesar:
             dan, mesec_leto = datum_rojstva[0].split("<sup>")[:2]
             dan = dan[22:]
             mesec,leto,starost = mesec_leto[9:-21].split(' ')
-            datum_rojstva = dan + ". " + prevod_mesev[mesec]+' ' + leto +starost
+            datum_rojstva = dan + ". " + prevod_mesecev[mesec]+' ' + leto + starost
             if '<br/><span><b>P' in datum_rojstva:
                 datum_rojstva = datum_rojstva.replace('<br/><span><b>P','')
             self.d_rojstva = datum_rojstva
@@ -47,6 +47,7 @@ class Kolesar:
         #v nekaterih primerih ni bilo datuma
         if self.d_rojstva == []:
             self.d_rojstva = 'neznano'
+            
         #self.d_rojstva = datum_rojstva
         self.nacionalnost = drzava
         self.link_ime = ime
@@ -71,7 +72,7 @@ class Kolesar:
         return sl
         
     def __str__(self):
-        return "{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}".format("Ime",self.ime, "Datum rojstva", self.d_rojstva, "Država", self.nacionalnost, "Teža", self.teza, "Višina", self.visina) # self.ekipa!!!
+        return "{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}\n{:>40s} | {:s}".format("Ime",self.ime, "Datum rojstva", self.d_rojstva.replace("janunar", "januar").replace("<br/><span><b>", ""), "Država", self.nacionalnost, "Teža", self.teza, "Višina", self.visina) # self.ekipa!!!
     
     def __repr__(self):
         return "Kolesar({})".format(self.link_ime)
@@ -254,7 +255,6 @@ class Drzava:
                     sl[drzava] = 0
                 sl[drzava] += zmage
         return sl
-
     
     def st_startov_tour(self):
         '''

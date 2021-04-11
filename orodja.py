@@ -170,7 +170,7 @@ def uredi_ime(niz):
 #     for ime in tabela:
 #         print('{:10}. {}'.format(st,ime))
 #         st += 1
-def pridobivanje_vseh_let(link, od_leta): 
+def pridobivanje_vseh_let(link): 
     '''
         Naredi slovar vseh let, kjer so za vsako leto podatki,
         ki jih dobimo pri funkciji 'imena_vseh' (gc razvrstitev, etapne uvrstitve...)
@@ -314,14 +314,9 @@ def kratice_drzav():
 # KODA ZA PRIDOBIVANJE PODATKOV IN SHRANJEVANJE NA DATOTEKO
 # Podatke sva shranila na datoteko, saj je postopek pridobivanja vseh podatkov dolgotrajen.
 
-# Lahko probate zagnati od leta 2015, da ne bo trajalo predolgo
-# slovar_leto= pridobivanje_vseh_let(link,2015)
 # ============================================================================
-#podatke sva shranila na datoteko 'dat.txt' 
 
-# slovar_vsa_leta= pridobivanje_vseh_let(link,1903)
+# slovar_vsa_leta= pridobivanje_vseh_let(link)
 # dat = open('dat.txt','w',encoding='utf-8')
 # print(slovar_vsa_leta,file = dat)
 # dat.close()
-
-#V glavnem programu poleg te datoteke odpre še dve datoteki, ki jih usvari v branje_txt.py

@@ -1,36 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import colors
-import random
 from orodja import *
 
-# Compute frequency and bins
-# frequency, bins = np.histogram(x, bins=10, range=[0, 100])
-# plt.rcParams.update({'figure.figsize':(7,5), 'figure.dpi':100})
-
-# Plot Histogram on x
-# x = ['asd','aasdasd','bg']
-# plt.hist(x, [1,2,3])
-# plt.gca().set(title='Frequency Histogram', ylabel='Frequency')
-# fig, axes = plt.subplots(figsize=(7,5), dpi=100)
-# plt.bar([1,2,3], [1,2,3])
-
-def graf_zmage_drzav(tabela):
-    '''iz tabele "najuspešnejše_države" naredi histogram'''
-    #najprej iz tabele razvrsti imena in št. zmag
-    sl = dict()
-    for drzava in tabela:
-        if drzava[1] != 0:
-            
-            sl[drzava[0]] = drzava[1] 
-    fig, axes = plt.subplots(figsize=(7,5), dpi=100)
-    plt.bar(list(sl.keys()), list(sl.values()))
-    plt.show()
-    
-        
-#graf_zmage_drzav(a)
-# print('asd')
 def kolac_drzave_zmage_skupno(tabela):
+    '''
+       Nariše frekvenčni kolač glede na število skupnih zmag za države 
+    '''
     kratice = kratice_drzav()
     sl = dict()
     sl["Ostalo"] = 0
@@ -47,6 +23,9 @@ def kolac_drzave_zmage_skupno(tabela):
     
     
 def kolac_drzave_zmage(tabela):
+    '''
+       Nariše frekvenčni kolač glede na število etapnih zmag za določeno leto
+    '''
     kratice = kratice_drzav()
     sl = dict()
     for drzava in tabela:
@@ -56,14 +35,16 @@ def kolac_drzave_zmage(tabela):
     plt.title('Razmerje etapnih zmag po državah')
     ax1.pie(list(sl.values()), labels=list(sl.keys()), autopct=lambda p : '{:.1f}% ({:,.0f})'.format(p,p * sum(sl.values())/100),shadow=True, startangle=90)
     plt.show()
-#kolac_drzave_zmage(a)
+
     
 def graf_zmage_drzav_test(tabela):
-    '''iz tabele (elementi so (leto, st etapnih zmag, st tekmovalcev)), naredi linijski diagram'''
+    '''
+        Iz tabele (elementi so (leto, st etapnih zmag, st tekmovalcev)), naredi linijski diagram za določeno državo
+    '''
     #najprej iz tabele razvrsti imena in št. zmag
     fig = plt.figure(figsize = [9, 6])
     plt.plot([leto[0] for leto in tabela], [zmage[1] for zmage in tabela], marker = 'o', markersize = 3, c = [0,0,1], label="Etapne zmage")
-    plt.plot([leto[0] for leto in tabela], [tekmovalci[2] for tekmovalci in tabela], marker = '*', markersize = 3, c = [0.66,0.66,0.66], label ="Št. tekmovalcev")
+    plt.plot([leto[0] for leto in tabela], [tekmovalci[2] for tekmovalci in tabela], marker = '*', markersize = 3, c = [1,0.66,0], label ="Št. tekmovalcev")
     plt.legend(loc = 'upper left', fontsize = 13)
     plt.title("Etapne zmage skozi leta", fontsize = 21, fontweight = 'bold')
     plt.ylabel("Število zmag & tekmovalcev", fontsize = 18)
@@ -71,25 +52,13 @@ def graf_zmage_drzav_test(tabela):
     plt.show()
     
     
-def vse_drzave_zmage(slovar):
-    drzave=[]
-    zmage = []
-    for drzava in slovar:
-        dr,zmaga= drzava
-        #v histogram dam države z 5 ali več zmagami
-        if zmaga > 4:
-            drzave.append(dr)
-            zmage.append(zmaga)
-    fig, axes = plt.subplots(figsize=(7,5), dpi=100)
-    
-
-    
-    plt.bar(drzave, zmage)
-    plt.show()
-    
-    
 def graf_kolesar(kolesar):
+    '''
+        Nariše linijski diagram za kolesarjeve etapne zmage (če etapne zmage nima, diagrama ne nariše)
+    '''
     slovar = kolesar.st_etapne_zmage_leto()
+    if len(slovar) == 0: # kolesar nima nobene etapne zmage, zato grafa ne nariše
+        return None
     # dodam 0 za tista vmesna leta ko ni nastopil npr nastopil 2017, 2018 in 2020, dodam 0 za 2019 in še kako leto prej
     for leto in range(min(list(slovar.keys())) - 5, min(max(list(slovar.keys()))+5,2021)):
         if leto not in slovar:

@@ -94,9 +94,7 @@ while True:
                         pass
                     
                 graf_kolesar(oseba)
-                #relativna razvrstitev glede na število vseh tekmovalcev?
-                #Posebni dosežki?
-                
+
                 print()
                 vnos = input("Želite nadaljevati? (da/ne) ")
                 if vnos != "da":
@@ -113,7 +111,7 @@ while True:
                 leto = int(input("Vnesi ime željenega leta: "))
                 if leto not in vsa_leta(link):
                     print("Neveljavno leto, poskusite znova!")
-                    #izpiše katera leta?
+                    
             except:
                 print("Neveljaven vnos, poskusite znova!")
                 continue
@@ -159,7 +157,7 @@ while True:
                         print("{:>50s} | {:s}".format(' ' , tabela[i][0] +' ('+ str(tabela[i][1]) + ")"))
                     else:
                         break
-                #naredi graf
+                
                 kolac_drzave_zmage(tabela)
                 
                 
@@ -220,7 +218,7 @@ while True:
 
                 print("{:>50s} | {:} ({})".format('Najuspešnejši kolesarji glede na etapne zmage',tab_kolesarjev[0][0],tab_kolesarjev[0][1]))
                 for i in range(1,5):
-                    try:#lahko se zgodi, da je maanj kot 5 kolesarjev
+                    try:#lahko se zgodi, da je manj kot 5 kolesarjev
                         if tab_kolesarjev[i][1] != 0:
                             print("{:>50s} | {:} ({})".format(' ',tab_kolesarjev[i][0],tab_kolesarjev[i][1]))
                     except:
@@ -240,9 +238,9 @@ while True:
                 
                     except:
                         continue
-                #linijski diagram
                 
                 graf_zmage_drzav_test(tab)
+                
                 print("")
                 vnos = input("Želite nadaljevati? (da/ne) ")
                 if vnos != "da":
@@ -303,9 +301,9 @@ while True:
         print("{:>50s} | {:} ({})".format('Države z njavečjim številom skupnih zmag',naj_drzave_gc[0][0],naj_drzave_gc[0][1]))
         for i in range(1,5):
             print("{:>50s} | {:} ({})".format(' ',naj_drzave_gc[i][0],naj_drzave_gc[i][1]))
+            
         kolac_drzave_zmage_skupno(naj_drzave_gc)
         
-        #histogram,fr. kolač
     
     elif stevka == 5:
         print("")
@@ -313,5 +311,4 @@ while True:
         break
     else:
         print('Vnesiti morate število med 1 in 5!')
-    
-# print(slovar_kolesarjev_prava_imena['Peter Sagan'].etapne_zmage_leto())
+

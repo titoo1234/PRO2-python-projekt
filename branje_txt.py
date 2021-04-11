@@ -71,8 +71,4 @@ def ustvarjanje_objektov(slovar):
             pozicija += 1
     return slovar_kolesarjev
 
-
-
-
-
                     
