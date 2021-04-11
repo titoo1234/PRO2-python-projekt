@@ -131,7 +131,7 @@ while True:
                     for x in slovar_imen[leto]["ETAPE"]:
                         prva_etapa = x
                         break
-                # grafi.graf_zmage_drzav(Drzava.najuspesnejse_drzave(leto,sl_drzav))
+                
                 print("")
                 print("{:>50s} | {:s}".format("leto",str(leto)))
                 print("{:>50s} | {:s}".format("Število tekmovalcev na startu dirke ", str(len(slovar_imen[leto]["ETAPE"][prva_etapa]))))
